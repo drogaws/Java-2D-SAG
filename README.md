@@ -1,4 +1,4 @@
-# 2D SALAD AND GO SIMULATOR #
+### 2D SALAD AND GO SIMULATOR ###
 
 Hello, this is just me uploading my progress on
 a game I am working on. Currently doing it to 
