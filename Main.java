@@ -1,7 +1,24 @@
+package main;
+
+import javax.swing.JFrame;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
-        System.out.println("This is a test for the GitHub Copilot plugin.");
-        System.out.println("This is a test for the GitHub Copilot plugin. 2nd line.");
+        
+        JFrame window = new JFrame();
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setResizable(false);
+        window.setTitle("SAG Simulator");
+
+        GamePanel gamePanel = new GamePanel();
+        window.add(gamePanel);
+
+        window.pack();
+
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
+
+
     }
+    
 }
