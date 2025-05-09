@@ -32,8 +32,8 @@ Manage staff, fulfill customer orders, handle prep and cleaning, and keep the li
 
 ## 🚧 Current Progress
 
-- [x] Basic customer/order system  
-- [x] Day simulation loop  
+- [ ] Basic customer/order system  
+- [ ] Day simulation loop  
 - [ ] Kitchen interaction system  
 - [ ] UI for order tracking  
 - [ ] Employee behavior scripting  
