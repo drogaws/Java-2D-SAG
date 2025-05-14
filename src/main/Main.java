@@ -11,11 +11,13 @@ public class Main {
         window.setTitle("SAG Simulator");
 
         GamePanel gamePanel = new GamePanel();
-        window.add(gamePanel);
+        window.add(gamePanel); 
 
-        window.pack();
+        window.pack(); // Makes sure winow and gamepanel are in sync
 
-        window.setLocationRelativeTo(null);
+        window.setLocationRelativeTo(null); // IDK
         window.setVisible(true);
+
+        gamePanel.startGameThreadd(); // Starts thread
     }
 }
