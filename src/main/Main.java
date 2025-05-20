@@ -12,12 +12,11 @@ public class Main {
 
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel); 
-
         window.pack(); // Makes sure winow and gamepanel are in sync
 
         window.setLocationRelativeTo(null); // IDK
         window.setVisible(true);
 
-        gamePanel.startGameThreadd(); // Starts thread
+        gamePanel.startGameThread(); // Starts thread
     }
 }
