@@ -1,4 +1,3 @@
-
 package main;
 
 import java.awt.Dimension;
@@ -79,7 +78,6 @@ public class GamePanel extends JPanel implements Runnable{
     public void update() {
 
         player.update();
-        
 
     }
     public void paintComponent(Graphics g) {
