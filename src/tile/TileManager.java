@@ -2,11 +2,8 @@ package tile;
 
 import java.awt.Graphics;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
-import javax.imageio.ImageIO;
 
 import main.GamePanel;
 
@@ -23,25 +20,10 @@ public class TileManager {
         tile = new Tile[17];
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
 
-        getTileImage();
+        TileLoader.loadTiles(tile);
         loadMap("/res/maps/betaWorldMap.txt");
     }
 
-    // LOAD TILE IMAGES
-    public void getTileImage() {
-         String[] fileNames = {"Floor", "Grass", "Sidewalk", "LeftWall", "RightWall", //0-4
-         "BottomWall", "TopWall", "BLWall", "BRWall", "TLWall", "TRWall", "TLCWall",  //5-11
-         "TopSWall", "InnerVWall", "InnerHWall", "BLWalkIn", "BRWalkIn"};             //12-16
-
-        try {
-            for (int i = 0; i < fileNames.length; i++) {
-                tile[i] = new Tile();
-                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/" + fileNames[i] + ".png"));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
     public void loadMap(String filePath) {
         
         try {
