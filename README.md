@@ -54,19 +54,12 @@ src/
 │   ├── Player.java            # Player logic
 │   └── Customer.java          # Customer and order requester
 │
-├── object/
-│   └── OBJ_Salad.java         # Salad construction logic
+├── res/
+│   └── player/
+│   └── tiles/
+│   └── maps/
 │
 ├── tile/
 │   ├── Tile.java              # Tile data
 │   └── TileManager.java       # Map layout and drawing
 │
-├── order/
-│   ├── Order.java             # Order data
-│   └── OrderManager.java      # Order tracking and validation
-│
-├── ui/
-│   └── UI.java                # Order display and UI text
-│
-└── utils/
-    └── CollisionChecker.java  # Prevent walking through walls
