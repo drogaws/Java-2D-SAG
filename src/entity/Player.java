@@ -1,6 +1,7 @@
 package entity;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -22,6 +23,12 @@ public class Player extends Entity {
         
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
+        solidArea = new Rectangle();
+        solidArea.x = 8;
+        solidArea.y = 8;
+        solidArea.height = gp.tileSize * (2/3);
+        solidArea.width = gp.tileSize * (2/3);
 
         setDefaultValues();
         getPlayerImage();
@@ -56,21 +63,42 @@ public class Player extends Entity {
         if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true) {
             if(keyH.upPressed == true) {
                 direction = "up";
-                worldY -= speed;
-            }
-            if(keyH.leftPressed == true) {
-                direction = "left";
-                worldX -= speed;
+                
             }
             if(keyH.downPressed == true) {
                 direction = "down";
-                worldY += speed;
+                
+            }
+            if(keyH.leftPressed == true) {
+                direction = "left";
             }
             if(keyH.rightPressed == true) {
                 direction = "right";
-                worldX += speed;
             }
+            
+            
     
+            // CHECK TILE COLLISION
+            collisionOn = false;
+            gp.cChecker.checkTile(this);
+
+            // IF COLLISION IS FALSE, PLAYER CAN MOVE
+            if(collisionOn == false) {
+
+                if(direction == "up") {
+                    worldY -= speed;
+                }
+                if(direction == "down") {
+                    worldY += speed;
+                }
+                if(direction == "left") {
+                    worldX -= speed;
+                }
+                if(direction == "right") {
+                    worldX += speed;
+                }
+            }
+
             spriteCounter++;
             if(spriteCounter > 24) {
                 if(spriteNum == 1) {
