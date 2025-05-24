@@ -87,6 +87,13 @@ public class Player extends Entity {
             gp.cChecker.checkTile(this);
             if (!collisionOn) {
                 worldX -= speed;
+            } else {
+                if (keyH.upPressed) {
+                    direction = "up";
+                }
+                if (keyH.downPressed) {
+                    direction = "down";
+                }
             }
         }
     
@@ -97,6 +104,13 @@ public class Player extends Entity {
             gp.cChecker.checkTile(this);
             if (!collisionOn) {
                 worldX += speed;
+            } else {
+                if (keyH.upPressed) {
+                    direction = "up";
+                }
+                if (keyH.downPressed) {
+                    direction = "down";
+                }
             }
         }
     
