@@ -24,9 +24,10 @@ public class Player extends Entity {
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
+        // Collision box
         solidArea = new Rectangle();
         solidArea.x = gp.tileSize / 4;
-        solidArea.y = gp.tileSize / 4;
+        solidArea.y = gp.tileSize / 2;
         solidArea.height = gp.tileSize / 2;
         solidArea.width = gp.tileSize / 2;
 
