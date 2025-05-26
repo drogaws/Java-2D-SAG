@@ -15,7 +15,7 @@ public class OBJ_SideStorage extends SuperObject{
         }
     }
 
-    public OBJ_SideStorage(String d) {
+    public OBJ_SideStorage(boolean x) {
         try {
             name = "SideStorage";
             image = ImageIO.read(getClass().getResourceAsStream("/res/objects/BackStorage.png"));

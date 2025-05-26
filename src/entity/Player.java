@@ -28,6 +28,8 @@ public class Player extends Entity {
         solidArea = new Rectangle();
         solidArea.x = gp.tileSize / 4;
         solidArea.y = gp.tileSize / 2;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
         solidArea.height = gp.tileSize / 2;
         solidArea.width = gp.tileSize / 2;
 
@@ -60,12 +62,13 @@ public class Player extends Entity {
     }
 
     public void update() {
-
+        int objIndex;
         // UP
         if (keyH.upPressed) {
             direction = "up";
             collisionOn = false;
             gp.cChecker.checkTile(this);
+            objIndex = gp.cChecker.checkObject(this, true);
             if (!collisionOn) {
                 worldY -= speed;
             }
@@ -76,6 +79,7 @@ public class Player extends Entity {
             direction = "down";
             collisionOn = false;
             gp.cChecker.checkTile(this);
+            objIndex = gp.cChecker.checkObject(this, true);
             if (!collisionOn) {
                 worldY += speed;
             }
@@ -86,6 +90,7 @@ public class Player extends Entity {
             direction = "left";
             collisionOn = false;
             gp.cChecker.checkTile(this);
+            objIndex = gp.cChecker.checkObject(this, true);
             if (!collisionOn) {
                 worldX -= speed;
             } else {
@@ -103,6 +108,7 @@ public class Player extends Entity {
             direction = "right";
             collisionOn = false;
             gp.cChecker.checkTile(this);
+            objIndex = gp.cChecker.checkObject(this, true);
             if (!collisionOn) {
                 worldX += speed;
             } else {

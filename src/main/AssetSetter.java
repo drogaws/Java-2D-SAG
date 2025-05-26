@@ -101,11 +101,11 @@ public class AssetSetter {
         gp.obj[20].worldX = 12 * gp.tileSize;
         gp.obj[20].worldY = 22 * gp.tileSize;
 
-        gp.obj[21] = new OBJ_SideStorage("Direction");
+        gp.obj[21] = new OBJ_SideStorage(false);
         gp.obj[21].worldX = 10 * gp.tileSize;
         gp.obj[21].worldY = 11 * gp.tileSize;
 
-        gp.obj[22] = new OBJ_SideStorage("Direction");
+        gp.obj[22] = new OBJ_SideStorage(false);
         gp.obj[22].worldX = 11 * gp.tileSize;
         gp.obj[22].worldY = 11 * gp.tileSize;
     }
