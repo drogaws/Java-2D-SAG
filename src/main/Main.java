@@ -17,6 +17,7 @@ public class Main {
         window.setLocationRelativeTo(null); // IDK
         window.setVisible(true);
 
+        gamePanel.setupGame();
         gamePanel.startGameThread(); // Starts thread
     }
 }
