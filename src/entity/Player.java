@@ -13,9 +13,11 @@ import main.KeyHandler;
 public class Player extends Entity {
     GamePanel gp;
     KeyHandler keyH;
-
     public final int screenX;
     public final int screenY;
+    int hasBowl = 0;
+    boolean canPressE = true;
+    int updates = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
@@ -63,6 +65,11 @@ public class Player extends Entity {
 
     public void update() {
         int objIndex;
+        collisionOn = false;
+        gp.cChecker.checkTile(this);
+        objIndex = gp.cChecker.checkObject(this, true);
+        //pickUpObject(objIndex);
+        
         // UP
         if (keyH.upPressed) {
             direction = "up";
@@ -120,6 +127,22 @@ public class Player extends Entity {
                 }
             }
         }
+
+        // E
+        if (canPressE && keyH.ePressed) {
+            
+            interactWithObject(objIndex);
+            canPressE = false;
+            
+        }
+        if(keyH.ePressed == false) {
+            canPressE = true;
+        }
+
+        // E Timer Logic
+        
+        
+        
     
         // Animation
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
@@ -136,6 +159,28 @@ public class Player extends Entity {
         }
     }
     
+    public void interactWithObject(int i) {
+
+        if(i != 999) {
+
+            String objectName = gp.obj[i].name;
+
+            switch(objectName) {
+                case "Bowl":
+                    if(keyH.ePressed == true) {
+                        hasBowl++;
+                        //gp.obj[i] = null;
+                    }
+                    
+                    System.out.println(hasBowl);
+                    
+                    break;
+                case "Door":
+                    break;
+                
+            }
+        }
+    }
     
 
     public void draw(Graphics2D g2) {

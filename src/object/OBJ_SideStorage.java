@@ -13,6 +13,7 @@ public class OBJ_SideStorage extends SuperObject{
         }catch(IOException e) {
             e.printStackTrace();
         }
+        collision = true;
     }
 
     public OBJ_SideStorage(boolean x) {
@@ -22,5 +23,6 @@ public class OBJ_SideStorage extends SuperObject{
         }catch(IOException e) {
             e.printStackTrace();
         }
+        collision = true;
     }
 }
