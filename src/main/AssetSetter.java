@@ -2,7 +2,7 @@ package main;
 
 import object.OBJ_Bowl;
 import object.OBJ_Door;
-import object.OBJ_Line;
+import object.OBJ_LineBuilder;
 import object.OBJ_SideStorage;
 
 public class AssetSetter {
@@ -110,28 +110,12 @@ public class AssetSetter {
         gp.obj[22].worldX = 11 * gp.tileSize;
         gp.obj[22].worldY = 11 * gp.tileSize;
 
-        gp.obj[23] = new OBJ_Line();
-        gp.obj[23].worldX = 19 * gp.tileSize;
-        gp.obj[23].worldY = 20 * gp.tileSize;
+        gp.obj[23] = new OBJ_LineBuilder();
+        gp.obj[23].worldX = 19 * gp.tileSize -24;
+        gp.obj[23].worldY = 20 * gp.tileSize -24;
 
-        gp.obj[24] = new OBJ_Line(false);
-        gp.obj[24].worldX = 19 * gp.tileSize;
-        gp.obj[24].worldY = 19 * gp.tileSize;
-
-        gp.obj[25] = new OBJ_Line();
-        gp.obj[25].worldX = 19 * gp.tileSize;
-        gp.obj[25].worldY = 18 * gp.tileSize;
-
-        gp.obj[26] = new OBJ_Line(false);
-        gp.obj[26].worldX = 19 * gp.tileSize;
-        gp.obj[26].worldY = 15 * gp.tileSize;
-
-        gp.obj[27] = new OBJ_Line();
-        gp.obj[27].worldX = 19 * gp.tileSize;
-        gp.obj[27].worldY = 14 * gp.tileSize;
-
-        gp.obj[28] = new OBJ_Line(false);
-        gp.obj[28].worldX = 19 * gp.tileSize;
-        gp.obj[28].worldY = 13 * gp.tileSize;
+        gp.obj[24] = new OBJ_LineBuilder();
+        gp.obj[24].worldX = 19 * gp.tileSize -24;
+        gp.obj[24].worldY = 12 * gp.tileSize -24;
     }
 }
