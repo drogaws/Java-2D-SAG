@@ -33,7 +33,7 @@ public class GamePanel extends JPanel implements Runnable{
     final int FPS = 120;
 
 
-    // OBjects
+    // Objects
     TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
@@ -42,7 +42,8 @@ public class GamePanel extends JPanel implements Runnable{
     public Player player = new Player(this, keyH);
     public SuperObject obj[] = new SuperObject[100];
 
-
+    
+    // Constructor
     public GamePanel() {
         
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -52,12 +53,12 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
     }
 
+    // SETUP GAME
     public void setupGame() {
         aSetter.setObject();
     }
 
-    // GAME LOOP & LOGIC
-
+    // START GAME
     public void startGameThread() {
         gameThread = new Thread(this); // assignes this class to gamethread
         gameThread.start(); // Call the run method

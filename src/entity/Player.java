@@ -131,15 +131,12 @@ public class Player extends Entity {
         // E
         if (canPressE && keyH.ePressed) {
             
-            interactWithObject(objIndex);
             canPressE = false;
-            
+            interactWithObject(objIndex);
         }
         if(keyH.ePressed == false) {
             canPressE = true;
         }
-
-        // E Timer Logic
         
         
         
@@ -167,10 +164,8 @@ public class Player extends Entity {
 
             switch(objectName) {
                 case "Bowl":
-                    if(keyH.ePressed == true) {
-                        hasBowl++;
-                        //gp.obj[i] = null;
-                    }
+                    hasBowl++;
+                    
                     
                     System.out.println(hasBowl);
                     
