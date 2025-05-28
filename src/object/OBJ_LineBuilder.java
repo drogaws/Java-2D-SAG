@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 public class OBJ_LineBuilder extends SuperObject {
     
      public OBJ_LineBuilder() {
-        solidArea = new Rectangle(0, 0, 144, 288);
+        solidArea = new Rectangle(0, 0, 48*scale, 96*scale);
         try {
             name = "Line";
             image = ImageIO.read(getClass().getResourceAsStream("/res/objects/LineBuilder.png"));

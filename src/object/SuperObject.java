@@ -10,9 +10,10 @@ public class SuperObject{
     
     public BufferedImage image;
     public String name;
+    public int scale = 5;
     public boolean collision = false;
     public int worldX, worldY;
-    public Rectangle solidArea = new Rectangle(0,0,48,48);
+    public Rectangle solidArea = new Rectangle(0,0,16*scale,16*scale);;
     public int solidAreaDefaultX = 0;
     public int solidAreaDefaultY = 0;
     
