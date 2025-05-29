@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 
 import main.GamePanel;
 import main.KeyHandler;
+import main.SkillCheck;
 
 public class Player extends Entity {
     GamePanel gp;
@@ -18,6 +19,9 @@ public class Player extends Entity {
     int hasBowl = 0;
     boolean canPressE = true;
     int updates = 0;
+    SkillCheck skillCheck;
+
+    
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
@@ -25,6 +29,8 @@ public class Player extends Entity {
         
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
+        skillCheck = new SkillCheck();
 
         // Collision box
         solidArea = new Rectangle();
@@ -40,8 +46,8 @@ public class Player extends Entity {
     }
     
     public void setDefaultValues() {
-        worldX = gp.tileSize * 2; // Starting POS
-        worldY = gp.tileSize * 2; // ^  ^   ^   ^
+        worldX = gp.tileSize * 14; // Starting POS
+        worldY = gp.tileSize * 20; // ^  ^   ^   ^
         speed = 5;
         direction = "down";
     }
@@ -138,7 +144,10 @@ public class Player extends Entity {
             canPressE = true;
         }
         
-        
+        // SPACE
+        if (keyH.spacePressed) {
+            skillCheck.handleKeyPress();
+        }
         
     
         // Animation
@@ -154,6 +163,10 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
         }
+
+
+        // Skill Check
+        skillCheck.update();
     }
     
     public void interactWithObject(int i) {
@@ -170,13 +183,39 @@ public class Player extends Entity {
                     System.out.println(hasBowl);
                     
                     break;
-                case "Door":
+                case "LineBuilder":
+                    
+                    skillCheck.start();
                     break;
                 
             }
         }
     }
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void draw(Graphics2D g2) {
 
@@ -218,5 +257,6 @@ public class Player extends Entity {
         }
 
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        skillCheck.draw(g2);
     }
 }
