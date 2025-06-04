@@ -10,7 +10,7 @@ public class SuperObject{
     
     public BufferedImage image;
     public String name;
-    public int scale = 5;
+    public int scale = GamePanel.scale;
     public boolean collision = false;
     public int worldX, worldY;
     public Rectangle solidArea = new Rectangle(0,0,16*scale,16*scale);;

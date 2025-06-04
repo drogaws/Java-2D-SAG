@@ -9,28 +9,26 @@ import javax.imageio.ImageIO;
 
 import main.GamePanel;
 import main.KeyHandler;
-import main.SkillCheck;
 
 public class Player extends Entity {
     GamePanel gp;
     KeyHandler keyH;
     public final int screenX;
     public final int screenY;
-    int hasBowl = 0;
+    public boolean hasBowl;
     boolean canPressE = true;
     int updates = 0;
-    SkillCheck skillCheck;
+
+    public int points = 0;
 
     
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
-        
+        hasBowl = false;
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
-
-        skillCheck = new SkillCheck();
 
         // Collision box
         solidArea = new Rectangle();
@@ -146,7 +144,7 @@ public class Player extends Entity {
         
         // SPACE
         if (keyH.spacePressed) {
-            skillCheck.handleKeyPress();
+            gp.skillCheck.handleKeyPress();
         }
         
     
@@ -166,7 +164,7 @@ public class Player extends Entity {
 
 
         // Skill Check
-        skillCheck.update();
+        gp.skillCheck.update();
     }
     
     public void interactWithObject(int i) {
@@ -177,15 +175,19 @@ public class Player extends Entity {
 
             switch(objectName) {
                 case "Bowl":
-                    hasBowl++;
+
+                    hasBowl = true;
                     
                     
                     System.out.println(hasBowl);
                     
                     break;
                 case "LineBuilder":
+                    if (hasBowl) {
+                        gp.skillCheck.start();
+                        
+                    }
                     
-                    skillCheck.start();
                     break;
                 
             }
@@ -257,6 +259,6 @@ public class Player extends Entity {
         }
 
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-        skillCheck.draw(g2);
+        gp.skillCheck.draw(g2);
     }
 }

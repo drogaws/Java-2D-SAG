@@ -3,17 +3,24 @@ package main;
 import java.awt.*;
 
 public class SkillCheck {
+
+    GamePanel gp;
     boolean active = false;
     int centerX, centerY, radius;
 
     double angle = 0;
     double speed = 0.05;
-    double successStartOne = Math.PI / 4;
-    double successEndOne = successStartOne + Math.toRadians(20);
+
+    double checkStartOne = Math.toRadians(-25);
+    double checkEndOne = checkStartOne + Math.toRadians(50);
+    double checkStartTwo = Math.toRadians(-180);
+    double checkEndTwo = checkStartTwo + Math.toRadians(-160);
+    
     boolean resultGiven = false;
 
 
-    public SkillCheck() {
+    public SkillCheck(GamePanel gp) {
+        this.gp = gp;
         this.centerX = 300; // Center X position
         this.centerY = 300; // Center Y position
         this.radius = 60; // Radius of the skill check circle
@@ -44,16 +51,16 @@ public class SkillCheck {
         // Draw success zone
         int arcX = centerX - radius;
         int arcY = centerY - radius;
-        int arcStart = (int) Math.toDegrees(successStartOne);
-        int arcAngle = (int) Math.toDegrees(successEndOne - successStartOne);
-        g2.setColor(Color.GREEN);
-        g2.fillArc(arcX, arcY, radius * 2, radius * 2, -arcStart, -arcAngle);
+        int arcStart = (int) Math.toDegrees(checkStartOne - Math.PI / 2);
+        int arcAngle = (int) Math.toDegrees(checkEndOne - checkStartOne);
+        g2.setColor(Color.WHITE);
+        g2.fillArc(arcX, arcY, radius * 2, radius * 2, arcStart, arcAngle);
 
-        //g2.setColor(Color.BLUE);
-        //g2.fillRect(successStartTwo, y, itemOne, height);
-
-        //g2.setColor(Color.PINK);
-        //g2.fillRect(successStartThree, y, itemOne, height);
+        // Second success zone
+        int arcStart1 = (int) Math.toDegrees(checkStartTwo - Math.PI / 2);
+        int arcAngle1 = (int) Math.toDegrees(checkEndTwo - checkEndTwo);
+        g2.setColor(Color.WHITE);
+        g2.fillArc(arcX, arcY, radius * 2, radius * 2, arcStart1, arcAngle1);
 
         // Draw moving cursor
         int needleX = centerX + (int)(Math.cos(angle) * radius);
@@ -65,13 +72,17 @@ public class SkillCheck {
     public void handleKeyPress() {
         if (!active || resultGiven) return;
 
-        if (angle >= successStartOne && angle <= successEndOne) {
+        if (angle >= checkStartOne && angle <= checkEndOne) {
             System.out.println("✅ SUCCESS!");
+            gp.player.hasBowl = true;
+            gp.player.points += 10;
+
         } else {
             System.out.println("❌ FAIL!");
+            gp.player.hasBowl = false;
         }
-
         resultGiven = true;
         active = false;
+        
     }
 }

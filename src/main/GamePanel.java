@@ -15,7 +15,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     // SCREEN SETTINGS
     final int originalTileSize = 16; // 16x16 tile
-    public final int scale = 5;
+    public final static int scale = 5;
 
     public final int tileSize = originalTileSize * scale; // 48x48 tile
     public final int maxScreenCol = 16;
@@ -36,11 +36,14 @@ public class GamePanel extends JPanel implements Runnable{
     // Objects
     TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler();
-    Thread gameThread;
+    
     public  CollisionChecker cChecker = new CollisionChecker(this);
     public AssetSetter aSetter = new AssetSetter(this);
+    public UI ui = new UI(this);
+    Thread gameThread;
     public Player player = new Player(this, keyH);
     public SuperObject obj[] = new SuperObject[100];
+    public SkillCheck skillCheck = new SkillCheck(this);
 
     
     // Constructor
@@ -118,6 +121,9 @@ public class GamePanel extends JPanel implements Runnable{
 
         // PLAYER
         player.draw(g2);
+
+        // UI
+        ui.draw(g2);
         
         g2.dispose();
     }
