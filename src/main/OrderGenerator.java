@@ -6,8 +6,8 @@ public class OrderGenerator {
     
     Random random = new Random();
     GamePanel gp;
-    String[] ingreidents = {"Corn", "Tomatoe", "Beans", "Lettuce"};
-    String order = "";
+    String[] ingreidents = {"Corn", "Tomatoe", "Beans", "Onion", "Chicken"};
+    String order = "Lettuce ";
     int wantsItem;
 
     public OrderGenerator(GamePanel gp) {
@@ -26,5 +26,7 @@ public class OrderGenerator {
             }
             
         }
+        System.out.println(order);
+        order = "Lettuce ";
     }
 }

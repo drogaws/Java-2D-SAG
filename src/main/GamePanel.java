@@ -94,7 +94,7 @@ public class GamePanel extends JPanel implements Runnable{
 
             if(timer >= 1000000000) {
                 System.out.println("FPS = " + drawCount);
-                System.out.println(orderGenerator.order);
+                orderGenerator.generateOrder();;
                 drawCount = 0;
                 timer = 0;
             }
@@ -105,7 +105,7 @@ public class GamePanel extends JPanel implements Runnable{
         
         player.update();
         skillCheck.update();
-        orderGenerator.generateOrder();
+        
 
     }
     public void paintComponent(Graphics g) {
