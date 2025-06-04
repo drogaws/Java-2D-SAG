@@ -161,10 +161,6 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
         }
-
-
-        // Skill Check
-        gp.skillCheck.update();
     }
     
     public void interactWithObject(int i) {
@@ -185,7 +181,8 @@ public class Player extends Entity {
                 case "LineBuilder":
                     if (hasBowl) {
                         gp.skillCheck.start();
-                        
+                    } else {
+                        gp.popUpMessage("Must Have Bowl to build salad !");
                     }
                     
                     break;
@@ -259,6 +256,5 @@ public class Player extends Entity {
         }
 
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-        gp.skillCheck.draw(g2);
     }
 }

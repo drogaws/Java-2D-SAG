@@ -11,19 +11,24 @@ public class SkillCheck {
     double angle = 0;
     double speed = 0.05;
 
-    double checkStartOne = Math.toRadians(-25);
-    double checkEndOne = checkStartOne + Math.toRadians(50);
-    double checkStartTwo = Math.toRadians(-180);
-    double checkEndTwo = checkStartTwo + Math.toRadians(-160);
+    double SC_Bottom = Math.toRadians(0);
+    double SC_Right = Math.toRadians(90);
+    double SC_Top = Math.toRadians(180);
+    double SC_Left = Math.toRadians(270);
+    double skillCheckLength = 90;
+    double SC_BottomEnd = SC_Bottom + Math.toRadians(skillCheckLength);
+    double SC_RightEnd = SC_Right + Math.toRadians(skillCheckLength);
+    double SC_TopEnd = SC_Top + Math.toRadians(skillCheckLength);
+    double SC_LeftEnd = SC_Left + Math.toRadians(skillCheckLength);
     
     boolean resultGiven = false;
 
 
     public SkillCheck(GamePanel gp) {
         this.gp = gp;
-        this.centerX = 300; // Center X position
-        this.centerY = 300; // Center Y position
-        this.radius = 60; // Radius of the skill check circle
+        this.centerX = gp.screenWidth/2; // Center X position
+        this.centerY = gp.screenHeight/2; // Center Y position
+        this.radius = 100; // Radius of the skill check circle
     }
 
     public void start() {
@@ -44,42 +49,78 @@ public class SkillCheck {
     public void draw(Graphics2D g2) {
         if (!active) return;
 
-        // Draw background bar
-        g2.setColor(Color.DARK_GRAY);
-        g2.fillOval(centerX - radius, centerY - radius, radius * 2, radius * 2);
-
-        // Draw success zone
         int arcX = centerX - radius;
         int arcY = centerY - radius;
-        int arcStart = (int) Math.toDegrees(checkStartOne - Math.PI / 2);
-        int arcAngle = (int) Math.toDegrees(checkEndOne - checkStartOne);
-        g2.setColor(Color.WHITE);
-        g2.fillArc(arcX, arcY, radius * 2, radius * 2, arcStart, arcAngle);
+        int diameter = radius * 2;
 
-        // Second success zone
-        int arcStart1 = (int) Math.toDegrees(checkStartTwo - Math.PI / 2);
-        int arcAngle1 = (int) Math.toDegrees(checkEndTwo - checkEndTwo);
+        // Draw background bar
+        g2.setColor(Color.DARK_GRAY);
+        g2.fillOval(arcX, arcY, diameter, diameter);
+
+        // Draw success zone
+
+        // Bottom
+        int arcStart1 = (int) Math.toDegrees(SC_Bottom - Math.PI / 2);
+        int arcAngle1 = (int) Math.toDegrees(SC_BottomEnd - SC_Bottom);
+        g2.setColor(Color.RED);
+        g2.fillArc(arcX, arcY, diameter, diameter, arcStart1, arcAngle1);
+
+        //g2.setFont("Arial", Font.BOLD, 40);
         g2.setColor(Color.WHITE);
-        g2.fillArc(arcX, arcY, radius * 2, radius * 2, arcStart1, arcAngle1);
+        g2.drawString("Corn", centerX + 100, centerY);
+
+        // Right
+        int arcStart2 = (int) Math.toDegrees(SC_Right - Math.PI / 2);
+        int arcAngle2 = (int) Math.toDegrees(SC_RightEnd - SC_Right);
+        g2.setColor(Color.YELLOW);
+        g2.fillArc(arcX, arcY, diameter, diameter, arcStart2, arcAngle2);
+
+        // Top
+        int arcStart3 = (int) Math.toDegrees(SC_Top - Math.PI / 2);
+        int arcAngle3 = (int) Math.toDegrees(SC_TopEnd - SC_Top);
+        g2.setColor(Color.GREEN);
+        g2.fillArc(arcX, arcY, diameter, diameter, arcStart3, arcAngle3);
+
+        // Left
+        int arcStart4 = (int) Math.toDegrees(SC_Left - Math.PI / 2);
+        int arcAngle4 = (int) Math.toDegrees(SC_LeftEnd - SC_Left);
+        g2.setColor(Color.BLUE);
+        g2.fillArc(arcX, arcY, diameter, diameter, arcStart4, arcAngle4);
 
         // Draw moving cursor
         int needleX = centerX + (int)(Math.cos(angle) * radius);
         int needleY = centerY + (int)(Math.sin(angle) * radius);    
-        g2.setColor(Color.RED);
+        g2.setColor(Color.BLACK);
         g2.drawLine(centerX, centerY, needleX, needleY);
     }
 
     public void handleKeyPress() {
         if (!active || resultGiven) return;
 
-        if (angle >= checkStartOne && angle <= checkEndOne) {
-            System.out.println("✅ SUCCESS!");
+        if (angle >= SC_Bottom && angle <= SC_BottomEnd) {
+            System.out.println("BOTTOM!");
+            gp.player.hasBowl = true;
+            gp.player.points += 10;
+
+        } else if (angle >= SC_Right && angle <= SC_RightEnd) {
+            System.out.println("RIGHT!");
+            gp.player.hasBowl = true;
+            gp.player.points += 10;
+
+        } else if (angle >= SC_Top && angle <= SC_TopEnd) {
+            System.out.println("TOP!");
+            gp.player.hasBowl = true;
+            gp.player.points += 10;
+
+        } else if (angle >= SC_Left && angle <= SC_LeftEnd) {
+            System.out.println("LEFT!");
             gp.player.hasBowl = true;
             gp.player.points += 10;
 
         } else {
             System.out.println("❌ FAIL!");
             gp.player.hasBowl = false;
+            gp.player.points -= 5;
         }
         resultGiven = true;
         active = false;

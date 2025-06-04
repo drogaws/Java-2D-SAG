@@ -44,6 +44,7 @@ public class GamePanel extends JPanel implements Runnable{
     public Player player = new Player(this, keyH);
     public SuperObject obj[] = new SuperObject[100];
     public SkillCheck skillCheck = new SkillCheck(this);
+    public OrderGenerator orderGenerator = new OrderGenerator(this);
 
     
     // Constructor
@@ -93,6 +94,7 @@ public class GamePanel extends JPanel implements Runnable{
 
             if(timer >= 1000000000) {
                 System.out.println("FPS = " + drawCount);
+                System.out.println(orderGenerator.order);
                 drawCount = 0;
                 timer = 0;
             }
@@ -100,7 +102,10 @@ public class GamePanel extends JPanel implements Runnable{
     }
     public void update() {
 
+        
         player.update();
+        skillCheck.update();
+        orderGenerator.generateOrder();
 
     }
     public void paintComponent(Graphics g) {
@@ -124,7 +129,16 @@ public class GamePanel extends JPanel implements Runnable{
 
         // UI
         ui.draw(g2);
+        ui.drawMessages(g2);
         
+        // Skill Check
+        skillCheck.draw(g2);
+
+        // Dispose
         g2.dispose();
+    }
+
+    public void popUpMessage(String message) {
+        ui.setMessage(message);
     }
 }
