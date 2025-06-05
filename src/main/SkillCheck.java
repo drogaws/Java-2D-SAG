@@ -15,7 +15,7 @@ public class SkillCheck {
     double SC_Right = Math.toRadians(90);
     double SC_Top = Math.toRadians(180);
     double SC_Left = Math.toRadians(270);
-    double skillCheckLength = 90;
+    double skillCheckLength = 45;
     double SC_BottomEnd = SC_Bottom + Math.toRadians(skillCheckLength);
     double SC_RightEnd = SC_Right + Math.toRadians(skillCheckLength);
     double SC_TopEnd = SC_Top + Math.toRadians(skillCheckLength);

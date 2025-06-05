@@ -1,0 +1,8 @@
+1. Make ingreidents an Enum or somthing of that nature
+ - Maybe use list and check if list has all ingreidents somehow?
+
+2. Make skill check assigned to random ingreidents
+
+3. Have customors trigger order
+
+4. Verify if order is correct
