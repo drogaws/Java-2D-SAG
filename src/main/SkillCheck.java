@@ -57,8 +57,8 @@ public class SkillCheck {
 
         for (int i = 0; i < orderSize; i++) {
             // Calculate start and end angles for this section
-            double startAngle = i * anglePerSection - Math.PI / 2;
-            double endAngle = startAngle + anglePerSection;
+            double startAngle = (i * anglePerSection - Math.PI / 2 + 2 * Math.PI) % (2 * Math.PI);
+            double endAngle = (startAngle + anglePerSection) % (2 * Math.PI);
 
             
     
@@ -84,6 +84,9 @@ public class SkillCheck {
             g2.drawString(gp.order.get(i), textX, textY);
         }
     
+
+
+        
         // Draw moving cursor
         int needleX = centerX + (int) (Math.cos(angle) * radius);
         int needleY = centerY + (int) (Math.sin(angle) * radius);
@@ -100,14 +103,16 @@ public class SkillCheck {
         int orderSize = gp.order.size();
         double anglePerSection = 2 * Math.PI / orderSize;
 
-        double normalizedAngle = (angle + 2 * Math.PI) % (2 * Math.PI);
+        // --- apply the same -π/2 offset here ---
+        double normalizedAngle = (angle - Math.PI/2 + 2 * Math.PI) % (2 * Math.PI);
 
-        for(int i = 0; i < orderSize; i++) {
+        for (int i = 0; i < orderSize; i++) {
             double startAngle = (i * anglePerSection - Math.PI / 2 + 2 * Math.PI) % (2 * Math.PI);
             double endAngle = (startAngle + anglePerSection) % (2 * Math.PI);
 
             if (startAngle < endAngle) {
                 if (normalizedAngle >= startAngle && normalizedAngle < endAngle) {
+                    // HIT!
                     System.out.println("HIT:" + gp.order.get(i));
                     gp.player.hasBowl = true;
                     gp.player.points += 10;
@@ -117,6 +122,7 @@ public class SkillCheck {
                 }
             } else {
                 if (normalizedAngle >= startAngle || normalizedAngle < endAngle) {
+                    // HIT in the wrap-around slice
                     System.out.println("HIT:" + gp.order.get(i));
                     gp.player.hasBowl = true;
                     gp.player.points += 10;
@@ -127,10 +133,12 @@ public class SkillCheck {
             }
         }
 
+        // no slice matched → MISS
         System.out.println("MISS");
         gp.player.hasBowl = false;
         gp.player.points -= 5;
         resultGiven = true;
         active = false;
     }
+
 }
