@@ -21,8 +21,7 @@ public class UI {
     public void draw(Graphics2D g2) {
         g2.setFont(arial_40);
         g2.setColor(Color.WHITE);
-        g2.drawString("Points: " + gp.player.points, 25, 100);
-        g2.drawString("FPS: " + gp.FPS, 25, 50);
+        g2.drawString("Points: " + gp.player.points, 25, 50);
 
        
     }

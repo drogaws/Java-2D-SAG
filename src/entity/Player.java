@@ -180,7 +180,11 @@ public class Player extends Entity {
                     break;
                 case "LineBuilder":
                     if (hasBowl) {
-                        gp.skillCheck.start();
+                        if(gp.order.isEmpty()) {
+                            gp.popUpMessage("There are no Orders right now !");
+                        } else {
+                            gp.skillCheck.start();
+                        }
                     } else {
                         gp.popUpMessage("Must Have Bowl to build salad !");
                     }

@@ -9,26 +9,17 @@ public class SkillCheck {
     int centerX, centerY, radius;
 
     double angle = 0;
-    double speed = 0.05;
-
-    double SC_Bottom = Math.toRadians(0);
-    double SC_Right = Math.toRadians(90);
-    double SC_Top = Math.toRadians(180);
-    double SC_Left = Math.toRadians(270);
-    double skillCheckLength = 45;
-    double SC_BottomEnd = SC_Bottom + Math.toRadians(skillCheckLength);
-    double SC_RightEnd = SC_Right + Math.toRadians(skillCheckLength);
-    double SC_TopEnd = SC_Top + Math.toRadians(skillCheckLength);
-    double SC_LeftEnd = SC_Left + Math.toRadians(skillCheckLength);
+    double speed = 0.025;
     
     boolean resultGiven = false;
+    Font font = new Font("Arial", Font.BOLD, 20);
 
 
     public SkillCheck(GamePanel gp) {
         this.gp = gp;
-        this.centerX = gp.screenWidth/2; // Center X position
-        this.centerY = gp.screenHeight/2; // Center Y position
-        this.radius = 100; // Radius of the skill check circle
+        this.centerX = gp.screenWidth/2;
+        this.centerY = gp.screenHeight/2;
+        this.radius = 100;
     }
 
     public void start() {
@@ -57,73 +48,87 @@ public class SkillCheck {
         g2.setColor(Color.DARK_GRAY);
         g2.fillOval(arcX, arcY, diameter, diameter);
 
-        // Draw success zone
+        // Draw the sections of the arc
+        int orderSize = gp.order.size();
+        double anglePerSection = 2 * Math.PI / orderSize; 
 
-        // Bottom
-        int arcStart1 = (int) Math.toDegrees(SC_Bottom - Math.PI / 2);
-        int arcAngle1 = (int) Math.toDegrees(SC_BottomEnd - SC_Bottom);
-        g2.setColor(Color.RED);
-        g2.fillArc(arcX, arcY, diameter, diameter, arcStart1, arcAngle1);
+        for (int i = 0; i < orderSize; i++) {
+            // Calculate start and end angles for this section
+            double startAngle = i * anglePerSection - Math.PI / 2;
+            double endAngle = startAngle + anglePerSection;
 
-        //g2.setFont("Arial", Font.BOLD, 40);
-        g2.setColor(Color.WHITE);
-        g2.drawString("Corn", centerX + 100, centerY);
-
-        // Right
-        int arcStart2 = (int) Math.toDegrees(SC_Right - Math.PI / 2);
-        int arcAngle2 = (int) Math.toDegrees(SC_RightEnd - SC_Right);
-        g2.setColor(Color.YELLOW);
-        g2.fillArc(arcX, arcY, diameter, diameter, arcStart2, arcAngle2);
-
-        // Top
-        int arcStart3 = (int) Math.toDegrees(SC_Top - Math.PI / 2);
-        int arcAngle3 = (int) Math.toDegrees(SC_TopEnd - SC_Top);
-        g2.setColor(Color.GREEN);
-        g2.fillArc(arcX, arcY, diameter, diameter, arcStart3, arcAngle3);
-
-        // Left
-        int arcStart4 = (int) Math.toDegrees(SC_Left - Math.PI / 2);
-        int arcAngle4 = (int) Math.toDegrees(SC_LeftEnd - SC_Left);
-        g2.setColor(Color.BLUE);
-        g2.fillArc(arcX, arcY, diameter, diameter, arcStart4, arcAngle4);
-
+            
+    
+            // Convert angles to degrees for fillArc
+            int arcStart = (int) Math.toDegrees(startAngle);
+            int arcAngle = (int) Math.toDegrees(endAngle - startAngle);
+    
+            // Assign a color (cycle through colors if there are more than 4 sections)
+            Color[] colors = {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
+            g2.setColor(colors[i % colors.length]);
+    
+            // Draw the arc section
+            g2.fillArc(arcX, arcY, diameter, diameter, arcStart, arcAngle);
+    
+            // Draw the ingredient text
+            g2.setFont(font);
+            g2.setColor(Color.BLACK);
+    
+            // Calculate text position (middle of the section)
+            double textAngle = startAngle + anglePerSection / 2;
+            int textX = centerX + (int) (Math.cos(textAngle) * (radius + 10));
+            int textY = centerY + (int) (Math.sin(textAngle) * (radius + 10));
+            g2.drawString(gp.order.get(i), textX, textY);
+        }
+    
         // Draw moving cursor
-        int needleX = centerX + (int)(Math.cos(angle) * radius);
-        int needleY = centerY + (int)(Math.sin(angle) * radius);    
+        int needleX = centerX + (int) (Math.cos(angle) * radius);
+        int needleY = centerY + (int) (Math.sin(angle) * radius);
         g2.setColor(Color.BLACK);
+
+        // Which parameter is thickness of the line?
+        // Which parameter is the color of the line?
+        g2.setStroke(new BasicStroke(5));
         g2.drawLine(centerX, centerY, needleX, needleY);
     }
 
     public void handleKeyPress() {
         if (!active || resultGiven) return;
 
-        if (angle >= SC_Bottom && angle <= SC_BottomEnd) {
-            System.out.println("BOTTOM!");
-            gp.player.hasBowl = true;
-            gp.player.points += 10;
+        int orderSize = gp.order.size();
+        double anglePerSection = 2 * Math.PI / orderSize;
 
-        } else if (angle >= SC_Right && angle <= SC_RightEnd) {
-            System.out.println("RIGHT!");
-            gp.player.hasBowl = true;
-            gp.player.points += 10;
+        double normalizedAngle = (angle + 2 * Math.PI) % (2 * Math.PI);
 
-        } else if (angle >= SC_Top && angle <= SC_TopEnd) {
-            System.out.println("TOP!");
-            gp.player.hasBowl = true;
-            gp.player.points += 10;
+        for(int i = 0; i < orderSize; i++) {
+            double startAngle = i * anglePerSection - Math.PI / 2;
+            double endAngle = startAngle + anglePerSection;
 
-        } else if (angle >= SC_Left && angle <= SC_LeftEnd) {
-            System.out.println("LEFT!");
-            gp.player.hasBowl = true;
-            gp.player.points += 10;
-
-        } else {
-            System.out.println("❌ FAIL!");
-            gp.player.hasBowl = false;
-            gp.player.points -= 5;
+            if (startAngle > endAngle) {
+                if (normalizedAngle >= startAngle && normalizedAngle < endAngle) {
+                    System.out.println("HIT:" + gp.order.get(i));
+                    gp.player.hasBowl = true;
+                    gp.player.points += 10;
+                    resultGiven = true;
+                    active = false;
+                    return;
+                }
+            } else {
+                if (normalizedAngle >= startAngle || normalizedAngle < endAngle) {
+                    System.out.println("HIT:" + gp.order.get(i));
+                    gp.player.hasBowl = true;
+                    gp.player.points += 10;
+                    resultGiven = true;
+                    active = false;
+                    return;
+                }
+            }
         }
+
+        System.out.println("MISS");
+        gp.player.hasBowl = false;
+        gp.player.points -= 5;
         resultGiven = true;
         active = false;
-        
     }
 }

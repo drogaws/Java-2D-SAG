@@ -3,6 +3,8 @@ package main;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.Color;
 
 import javax.swing.JPanel;
@@ -15,7 +17,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     // SCREEN SETTINGS
     final int originalTileSize = 16; // 16x16 tile
-    public final static int scale = 5;
+    public final static int scale = 3;
 
     public final int tileSize = originalTileSize * scale; // 48x48 tile
     public final int maxScreenCol = 16;
@@ -57,6 +59,9 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
     }
 
+    // Order
+    public List<String> order = new ArrayList<>();
+
     // SETUP GAME
     public void setupGame() {
         aSetter.setObject();
@@ -75,7 +80,9 @@ public class GamePanel extends JPanel implements Runnable{
         long lastTime = System.nanoTime();
         long currentTime;
         long timer = 0;
-        int drawCount = 0;
+        long orderInterval = 0; 
+        long drawCount = 0;
+        
         
         while(gameThread != null) { // Loop: while the Thread exist loop continues.
 
@@ -90,13 +97,19 @@ public class GamePanel extends JPanel implements Runnable{
                 repaint();
                 delta--;
                 drawCount++;
+                
+                
             }
 
             if(timer >= 1000000000) {
                 System.out.println("FPS = " + drawCount);
-                orderGenerator.generateOrder();;
                 drawCount = 0;
                 timer = 0;
+                orderInterval++;
+                if(orderInterval >= 10 && order.isEmpty()) {
+                    order = orderGenerator.generateOrder();
+                    orderInterval = 0;
+                }
             }
         }
     }
