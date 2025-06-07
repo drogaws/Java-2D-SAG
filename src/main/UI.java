@@ -10,12 +10,13 @@ public class UI {
     Font arial_40, popUpFont;
     String currentPopUp = "";
     int messageTimer = 0;
+    int scale = GamePanel.SCALE;
     private final int MESSAGE_DURATION = 240;
 
     public UI(GamePanel gp) {
         this.gp = gp;
-        arial_40 = new Font("Arial", Font.BOLD, 40);
-        popUpFont = new Font("Arial", Font.BOLD, 50);
+        arial_40 = new Font("Arial", Font.BOLD, scale * 15);
+        popUpFont = new Font("Arial", Font.BOLD, scale * 12);
     }
 
     public void draw(Graphics2D g2) {
@@ -26,6 +27,8 @@ public class UI {
        
     }
 
+
+
     public void setMessage(String message) {
         currentPopUp = message;
         messageTimer = MESSAGE_DURATION;
@@ -35,7 +38,7 @@ public class UI {
         if (messageTimer > 0) {
             g2.setFont(popUpFont);
             g2.setColor(Color.WHITE);
-            g2.drawString(currentPopUp, gp.screenWidth / 2 - 400, gp.screenHeight / 2 + 200);
+            g2.drawString(currentPopUp, gp.screenWidth / 2 - (300), gp.screenHeight / 2 + (250));
             messageTimer--;
         }
     }

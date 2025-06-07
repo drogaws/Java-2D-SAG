@@ -23,6 +23,9 @@ public class SkillCheck {
     }
 
     public void start() {
+        //lettuceCheck();
+        //ingredientCheck();
+
         angle = 0;
         active = true;
         resultGiven = false;
@@ -72,12 +75,12 @@ public class SkillCheck {
     
             // Draw the ingredient text
             g2.setFont(font);
-            g2.setColor(Color.BLACK);
+            g2.setColor(Color.WHITE);
     
             // Calculate text position (middle of the section)
             double textAngle = startAngle + anglePerSection / 2;
-            int textX = centerX + (int) (Math.cos(textAngle) * (radius + 10));
-            int textY = centerY + (int) (Math.sin(textAngle) * (radius + 10));
+            int textX = centerX + (int) (Math.cos(textAngle) * (radius));
+            int textY = centerY + (int) (Math.sin(textAngle) * (radius));
             g2.drawString(gp.order.get(i), textX, textY);
         }
     
@@ -86,8 +89,7 @@ public class SkillCheck {
         int needleY = centerY + (int) (Math.sin(angle) * radius);
         g2.setColor(Color.BLACK);
 
-        // Which parameter is thickness of the line?
-        // Which parameter is the color of the line?
+        
         g2.setStroke(new BasicStroke(5));
         g2.drawLine(centerX, centerY, needleX, needleY);
     }
@@ -101,10 +103,10 @@ public class SkillCheck {
         double normalizedAngle = (angle + 2 * Math.PI) % (2 * Math.PI);
 
         for(int i = 0; i < orderSize; i++) {
-            double startAngle = i * anglePerSection - Math.PI / 2;
-            double endAngle = startAngle + anglePerSection;
+            double startAngle = (i * anglePerSection - Math.PI / 2 + 2 * Math.PI) % (2 * Math.PI);
+            double endAngle = (startAngle + anglePerSection) % (2 * Math.PI);
 
-            if (startAngle > endAngle) {
+            if (startAngle < endAngle) {
                 if (normalizedAngle >= startAngle && normalizedAngle < endAngle) {
                     System.out.println("HIT:" + gp.order.get(i));
                     gp.player.hasBowl = true;
