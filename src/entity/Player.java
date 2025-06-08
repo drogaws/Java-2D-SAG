@@ -15,9 +15,8 @@ public class Player extends Entity {
     KeyHandler keyH;
     public final int screenX;
     public final int screenY;
-    public boolean hasBowl;
+    public boolean hasBowl = false;
     boolean canPressE = true;
-    int updates = 0;
 
     public int points = 0;
 
@@ -144,7 +143,7 @@ public class Player extends Entity {
         
         // SPACE
         if (keyH.spacePressed) {
-            //gp.skillCheck.handleKeyPress();
+            gp.skillCheck.handleKeyPress();
         }
         
     
@@ -179,6 +178,7 @@ public class Player extends Entity {
                     
                     break;
                 case "LineBuilder":
+                    gp.skillCheck.builderSkillCheck();
                     
                     
                     break;

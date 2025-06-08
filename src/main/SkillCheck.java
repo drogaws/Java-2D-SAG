@@ -1,25 +1,47 @@
 package main;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 public class SkillCheck {
 
     GamePanel gp;
-    boolean correct;
+
+    private static boolean correct;
+
+    // Skill Check Variables
+    boolean active = false;
+    boolean completed = false;
+    double angle = 0;
+    double speed = 0.05;
+    int centerX, centerY, radius, diameter;
+    Color[] colors = {
+        Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE
+    };
+    int sectionCount = 4;
+    double anglePerSection = 2 * Math.PI / sectionCount;
+
 
     public SkillCheck(GamePanel gp) {
         this.gp = gp;
-        
 
-
+        centerX = gp.screenWidth / 2;
+        centerY = gp.screenHeight / 2;
+        radius = 100;
+        diameter = radius * 2;
     }
 
+    
     public void builderSkillCheck() {
-
+        
         if (!gp.player.hasBowl) {
             gp.ui.setMessage("You need a bowl to build a salad!");
             return;
         }
 
-        correct = lettuceSkillCheck();
+        active = true;
+        correct = false;
+
+        lettuceSkillCheck();
         if (correct) {
             classicSkillCheck();
         }
@@ -28,12 +50,16 @@ public class SkillCheck {
     }
 
     public void finisherSkillCheck() {
+ 
         if (!gp.player.hasBowl) {
             gp.ui.setMessage("You need a bowl to finish the salad!");
             return;
         }
 
-        correct = premiumSkillCheck();
+        active = true;
+        correct = false;
+
+        premiumSkillCheck();
         if (correct) {
             dressingSkillCheck();
         }
@@ -43,24 +69,78 @@ public class SkillCheck {
 
 
 
-    public boolean lettuceSkillCheck() {
-        boolean correct = false;
+    public void lettuceSkillCheck() {
         
-
-        return correct;
     }
 
     public void classicSkillCheck() {
         
     }
 
-    public boolean premiumSkillCheck() {
-        boolean correct = false;
-
-        return correct;
+    public void premiumSkillCheck() {
+        
     }
 
     public void dressingSkillCheck() {
         
     }        
+    
+
+    public void update() {
+        if(!active) return;
+        
+        angle += speed;
+        if (angle >= 2 * Math.PI) {
+            angle = 0;
+        }
+    }
+
+    public void draw(Graphics2D g2) {
+        if(!active) return;
+
+        // Base Circle
+        g2.setColor(Color.BLACK);
+        g2.fillOval(centerX - radius, centerY - radius, diameter, diameter);
+
+        //Draw Sections
+        for (int i = 0; i < sectionCount; i++) {
+
+            // Math
+            double startAngle = i * anglePerSection + Math.PI / 8;
+            double endAngle = anglePerSection / 2;
+
+            // Math to Degrees
+            int degreesStart = (int) Math.toDegrees(startAngle);
+            int degreesEnd = (int) Math.toDegrees(endAngle);
+
+            // Draw Arc
+            g2.setColor(colors[i]);
+            g2.fillArc(centerX - radius, centerY - radius, diameter, diameter, degreesStart, degreesEnd);
+        }
+
+        // Draw cursor
+        int cursorX = centerX + (int) (radius * Math.cos(angle));
+        int cursorY = centerY + (int) (radius * Math.sin(angle));
+        g2.setColor(Color.WHITE);
+        g2.drawLine(centerX, centerY, cursorX, cursorY);
+    }
+    public void handleKeyPress() {
+
+        if (!active || completed) return;
+
+        //Draw Sections
+        for (int i = 0; i < sectionCount; i++) {
+
+            // Math
+            double startAngle = i * anglePerSection + Math.PI / 8;
+            double endAngle = anglePerSection / 2;
+
+            if(angle >= startAngle && angle < endAngle) {
+                correct = true;
+                completed = true;
+                active = false;
+                gp.ui.setMessage("Skill Check Passed!");
+            }
+        }
+    }
 }

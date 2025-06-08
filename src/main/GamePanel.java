@@ -118,7 +118,7 @@ public class GamePanel extends JPanel implements Runnable{
 
         
         player.update();
-        //killCheck.update();
+        skillCheck.update();
         
 
     }
@@ -146,7 +146,7 @@ public class GamePanel extends JPanel implements Runnable{
         ui.drawMessages(g2);
         
         // Skill Check
-        //skillCheck.draw(g2);
+        skillCheck.draw(g2);
 
         // Dispose
         g2.dispose();
