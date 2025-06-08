@@ -144,7 +144,7 @@ public class Player extends Entity {
         
         // SPACE
         if (keyH.spacePressed) {
-            gp.skillCheck.handleKeyPress();
+            //gp.skillCheck.handleKeyPress();
         }
         
     
@@ -179,15 +179,7 @@ public class Player extends Entity {
                     
                     break;
                 case "LineBuilder":
-                    if (hasBowl) {
-                        if(gp.order.isEmpty()) {
-                            gp.popUpMessage("There are no Orders right now !");
-                        } else {
-                            gp.skillCheck.start();
-                        }
-                    } else {
-                        gp.popUpMessage("Must Have Bowl to build salad !");
-                    }
+                    
                     
                     break;
                 

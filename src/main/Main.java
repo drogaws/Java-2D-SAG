@@ -14,8 +14,8 @@ public class Main {
         window.add(gamePanel); 
         window.pack(); // Makes sure winow and gamepanel are in sync
 
-        //window.setLocationRelativeTo(null); // MAC Work
-        window.setLocation(-1350, 500); // PC Work
+        window.setLocationRelativeTo(null); // MAC Work
+        //window.setLocation(-1350, 500); // PC Work
         window.setVisible(true);
 
         gamePanel.setupGame();

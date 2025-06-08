@@ -106,9 +106,10 @@ public class GamePanel extends JPanel implements Runnable{
                 drawCount = 0;
                 timer = 0;
                 orderInterval++;
-                if(orderInterval >= 10 && order.isEmpty()) {
+                if(orderInterval >= 2 && order.isEmpty()) {
                     order = orderGenerator.generateOrder();
                     orderInterval = 0;
+                    order.clear();
                 }
             }
         }
@@ -117,7 +118,7 @@ public class GamePanel extends JPanel implements Runnable{
 
         
         player.update();
-        skillCheck.update();
+        //killCheck.update();
         
 
     }
@@ -145,7 +146,7 @@ public class GamePanel extends JPanel implements Runnable{
         ui.drawMessages(g2);
         
         // Skill Check
-        skillCheck.draw(g2);
+        //skillCheck.draw(g2);
 
         // Dispose
         g2.dispose();
