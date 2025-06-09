@@ -14,17 +14,24 @@ public class OrderGenerator {
     List<String> premiums = new ArrayList<>();
     List<String> protine = new ArrayList<>();
     List<String> dressings = new ArrayList<>();
-    
+
+    List<String> lettuceOrder = new ArrayList<>();
+    List<String> classicsOrder = new ArrayList<>();
+    List<String> premiumsOrder = new ArrayList<>();
+    List<String> protineOrder = new ArrayList<>();
+    List<String> dressingsOrder = new ArrayList<>();
+
     List<String> order = new ArrayList<>();
 
     int wantsItem;
 
     public OrderGenerator(GamePanel gp) {
         this.gp = gp;
+        resetIngreidents();
+
     }
 
-    public void resetOrder() {
-        order.clear();
+    public void resetIngreidents() {
         lettuce.clear();
         classics.clear();
         premiums.clear();
@@ -36,6 +43,14 @@ public class OrderGenerator {
         addPremiums();
         addProtines();
         addDressings();
+    }
+    public void resetOrder() {
+        order.clear();
+        lettuceOrder.clear();
+        classicsOrder.clear();
+        premiumsOrder.clear();
+        protineOrder.clear();
+        dressingsOrder.clear();
     }
     public void addLettuce() {
         lettuce.add("Romaine");
@@ -80,12 +95,11 @@ public class OrderGenerator {
     }
 
 
-
-    //wantsItem = random.nextInt(2);
-
-    public List<String> generateOrder() {
+    public void generateOrder() {
         int itemNum;
+        
         resetOrder();
+        
         
         for(int i = 0; i < 5; i++) {
             
@@ -95,6 +109,7 @@ public class OrderGenerator {
                     for(int j = 0; j < wantsItem; j++) {
                         itemNum = random.nextInt(lettuce.size());
                         order.add(lettuce.get(itemNum));
+                        lettuceOrder.add(lettuce.get(itemNum));
                         lettuce.remove(itemNum);
                     }
                     
@@ -130,6 +145,7 @@ public class OrderGenerator {
             }
         }
         System.out.println(order);
-        return order;
+        resetIngreidents();
+        return;
     }
 }

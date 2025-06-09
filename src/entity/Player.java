@@ -1,9 +1,11 @@
 package entity;
 
 import java.awt.Graphics2D;
+import java.util.List;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -19,6 +21,7 @@ public class Player extends Entity {
     boolean canPressE = true;
 
     public int points = 0;
+    public List<String> playerBowl = new ArrayList<>();
 
     
 

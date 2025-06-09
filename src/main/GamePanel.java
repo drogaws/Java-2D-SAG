@@ -106,8 +106,8 @@ public class GamePanel extends JPanel implements Runnable{
                 drawCount = 0;
                 timer = 0;
                 orderInterval++;
-                if(orderInterval >= 5 && order.isEmpty()) {
-                    order = orderGenerator.generateOrder();
+                if(orderInterval >= 5 && orderGenerator.order.isEmpty()) {
+                    orderGenerator.generateOrder();
                     orderInterval = 0;
                 }
             }
