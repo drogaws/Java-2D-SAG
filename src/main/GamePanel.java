@@ -17,7 +17,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     // SCREEN SETTINGS
     final int originalTileSize = 16; // 16x16 tile
-    public final static int SCALE = 5;
+    public final static int SCALE = 3;
 
     public final int tileSize = originalTileSize * SCALE; // 48x48 tile
     public final int maxScreenCol = 16;
@@ -106,10 +106,9 @@ public class GamePanel extends JPanel implements Runnable{
                 drawCount = 0;
                 timer = 0;
                 orderInterval++;
-                if(orderInterval >= 2 && order.isEmpty()) {
+                if(orderInterval >= 5 && order.isEmpty()) {
                     order = orderGenerator.generateOrder();
                     orderInterval = 0;
-                    order.clear();
                 }
             }
         }

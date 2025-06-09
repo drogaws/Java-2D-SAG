@@ -10,7 +10,6 @@ public class SkillCheck {
 
     // Skill Check Variables
     boolean active = false;
-    boolean completed = false;
     double angle = 0;
     double speed = 0.05;
     int centerX, centerY, radius, diameter;
@@ -19,6 +18,7 @@ public class SkillCheck {
     };
     int sectionCount = 4;
     double anglePerSection = 2 * Math.PI / sectionCount;
+    double gapAngle = anglePerSection / 2;
 
 
     public SkillCheck(GamePanel gp) {
@@ -32,9 +32,12 @@ public class SkillCheck {
 
     
     public void builderSkillCheck() {
-        
         if (!gp.player.hasBowl) {
             gp.ui.setMessage("You need a bowl to build a salad!");
+            return;
+        }
+        if (gp.order.isEmpty()) {
+            gp.ui.setMessage("You have no order to build!");
             return;
         }
 
@@ -50,7 +53,6 @@ public class SkillCheck {
     }
 
     public void finisherSkillCheck() {
- 
         if (!gp.player.hasBowl) {
             gp.ui.setMessage("You need a bowl to finish the salad!");
             return;
@@ -106,8 +108,8 @@ public class SkillCheck {
         for (int i = 0; i < sectionCount; i++) {
 
             // Math
-            double startAngle = i * anglePerSection + Math.PI / 8;
-            double endAngle = anglePerSection / 2;
+            double startAngle = (i * Math.PI / 2) ;
+            double endAngle = anglePerSection - gapAngle;
 
             // Math to Degrees
             int degreesStart = (int) Math.toDegrees(startAngle);
@@ -124,23 +126,30 @@ public class SkillCheck {
         g2.setColor(Color.WHITE);
         g2.drawLine(centerX, centerY, cursorX, cursorY);
     }
-    public void handleKeyPress() {
 
-        if (!active || completed) return;
+
+    public void handleKeyPress() {
+        if (!active) return;
+
+        double normalizedAngle = (angle + 2 * Math.PI) % (2 * Math.PI);
 
         //Draw Sections
         for (int i = 0; i < sectionCount; i++) {
 
-            // Math
-            double startAngle = i * anglePerSection + Math.PI / 8;
-            double endAngle = anglePerSection / 2;
+            // Math * 
+            double startAngle = (i * Math.PI / 2) ;
+            double endAngle = startAngle + anglePerSection - gapAngle; 
 
-            if(angle >= startAngle && angle < endAngle) {
+            if(normalizedAngle >= startAngle && normalizedAngle < endAngle) {
                 correct = true;
-                completed = true;
                 active = false;
                 gp.ui.setMessage("Skill Check Passed!");
+                return;
             }
         }
+        correct = false;
+        active = false;
+        gp.ui.setMessage("Skill Check Failed!");
+        
     }
 }
