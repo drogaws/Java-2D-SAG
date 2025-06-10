@@ -136,7 +136,7 @@ public class SkillCheck {
         
         for (int i = 0; i < totalSections/2; i++) {
             // Adjust the angle calculation to spread text evenly
-            double startAngleRad = (i * 2 + 1) * sliceAngle;
+            double startAngleRad = (2* i + 1) * sliceAngle;
             double textAngle = startAngleRad + sliceAngle / 2;
             
             // Calculate text position
@@ -150,24 +150,24 @@ public class SkillCheck {
             g2.setColor(Color.WHITE);
             g2.setFont(new Font("Arial Black", Font.BOLD, 18));
             
-            // Get the text to draw
-            String ingredientName = ingredients.get(i);
+            // Get the text to draw\
+            if(i < ingredients.size()) {
+                String ingredientName = ingredients.get(i);
+                double rotationAngle = textAngle;
+                
+                if (textY > centerY) {
+                    rotationAngle += Math.PI;
+                }
+                g2.rotate(rotationAngle + Math.PI/2, textX, textY);
+                
+                // Center the text
+                int textWidth = g2.getFontMetrics().stringWidth(ingredientName);
+                g2.drawString(ingredientName, textX - textWidth/2, textY);
             
-            // Rotate the text - flip bottom text
-            double rotationAngle;
-            if (textY > centerY) {
-                // Bottom half - rotate opposite direction
-                rotationAngle = textAngle - Math.PI/2;
-            } else {
-                // Top half - normal rotation
-                rotationAngle = textAngle + Math.PI/2;
             }
-            g2.rotate(rotationAngle, textX, textY);
+
             
-            // Center the text
-            int textWidth = g2.getFontMetrics().stringWidth(ingredientName);
-            g2.drawString(ingredientName, textX - textWidth/2, textY);
-            
+           
             // Restore the original transform
             g2.setTransform(oldTransform);
         }
@@ -192,10 +192,10 @@ public class SkillCheck {
         double normalizedAngle = (angle + 2 * Math.PI) % (2 * Math.PI);
         int totalSections = 8;
         double sliceAngle = 2 * Math.PI / totalSections;
-        int hitSection = (int)(normalizedAngle / sliceAngle);
+        int hitSection = (int)((normalizedAngle +  sliceAngle/2) / sliceAngle) % totalSections; 
     
-        if (hitSection % 2 == 1) {
-            int colorIndex = hitSection / 2;
+        if (hitSection % 2 == 0) {
+            int colorIndex = (hitSection - 1) / 2;
             if(colorIndex < ingredients.size()) {
                 String selectedIngredient = ingredients.get(colorIndex);
                 

@@ -19,6 +19,7 @@ public class Player extends Entity {
     public final int screenY;
     public boolean hasBowl = false;
     boolean canPressE = true;
+    boolean canPressSpace = true;
 
     public int points = 0;
     public List<String> playerBowl = new ArrayList<>();
@@ -145,8 +146,13 @@ public class Player extends Entity {
         }
         
         // SPACE
-        if (keyH.spacePressed) {
+        if (canPressSpace && keyH.spacePressed) {
+             
+            canPressSpace = false;
             gp.skillCheck.handleKeyPress();
+        }
+        if(keyH.spacePressed == false) {
+            canPressSpace = true;
         }
         
     
