@@ -22,7 +22,6 @@ public class SkillCheck {
     };
     List<String> ingredients = new ArrayList<>();
 
-
     public SkillCheck(GamePanel gp) {
         this.gp = gp;
 
