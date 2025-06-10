@@ -122,6 +122,7 @@ public class OrderGenerator {
                     for(int j = 0; j < wantsItem; j++) {
                         itemNum = random.nextInt(classics.size());
                         order.add(classics.get(itemNum));
+                        classicsOrder.add(classics.get(itemNum));
                         classics.remove(itemNum);
                     }
                     break;
