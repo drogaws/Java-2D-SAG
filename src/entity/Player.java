@@ -172,7 +172,7 @@ public class Player extends Entity {
             String objectName = gp.obj[i].name;
 
             switch(objectName) {
-                case "Bowl":
+                case "BowlTable":
 
                     hasBowl = true;
                     

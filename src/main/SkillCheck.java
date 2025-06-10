@@ -57,6 +57,7 @@ public class SkillCheck {
         ingredients.addAll(gp.orderGenerator.lettuce);
         active = true;
         
+        
     }
 
     public void classicSkillCheck() {

@@ -1,6 +1,6 @@
 package main;
 
-import object.OBJ_Bowl;
+import object.OBJ_BowlTable;
 import object.OBJ_Door;
 import object.OBJ_LineBuilder;
 import object.OBJ_SideStorage;
@@ -15,9 +15,9 @@ public class AssetSetter {
 
     public void setObject() {
 
-        gp.obj[0] = new OBJ_Bowl();
-        gp.obj[0].worldX = 24 * gp.tileSize;
-        gp.obj[0].worldY = 22 * gp.tileSize;
+        gp.obj[0] = new OBJ_BowlTable();
+        gp.obj[0].worldX = 18 * gp.tileSize;
+        gp.obj[0].worldY = 26 * gp.tileSize - 24;
 
         //Col 24
         //Line 22
