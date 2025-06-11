@@ -1,18 +1,33 @@
-1. Make ingreidents an Enum or somthing of that nature
- - Maybe use list and check if list has all ingreidents somehow?
+1. Add window to allow user to turn in salad.
+
+2. Make orders display on screenHeight
+
+3. Generate orders every 60 seconds
+
+4. Win/Loose Logic
+
+5. Better UI
 
 
 
-2. Make skill check assigned to random ingreidents
-- Add the first four things in the ingreidetns list to the wheel to assign to whatever
-- go to the next four ingreidents in list
-- add ingreidents to player somehow
-- create window object
-- turn order in at window
-- double check or if correct points++ else points--;
 
-3. Have customors trigger order
 
-4. Verify if order is correct
 
-5. display FPS
+ART:
+    Front
+        Window - > Turn in orders
+        Left POS Section - > Frozen machine
+        Middle POS Section - > Take orders
+        Right POS Section - > Drinks
+        Shelves - > storage
+    Walk-in
+        Shelves - storage for restock/NBO functionality
+    
+    Back Office
+        Desk - > Computer With NBO, SMG, HME, PULSE
+        Racks - > Store cleaning supplys
+    Bathroom (lore related)
+        Sink - > Wash hands
+        Toilet -> Use Toilet
+        Racks -> Store cleaning supplys
+

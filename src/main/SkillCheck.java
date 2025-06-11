@@ -35,6 +35,11 @@ public class SkillCheck {
     public void builderSkillCheck() {
         active = false;
 
+        if(builderSideComplete) {
+            gp.ui.setMessage("Builder side completed move to finisher!");
+            return;
+        }
+
         if (!gp.player.hasBowl) {
             gp.ui.setMessage("You need a bowl to build a salad!");
             return;
@@ -85,7 +90,7 @@ public class SkillCheck {
                    gp.orderGenerator.classicsOrder)) {
         active = true;
     } else {
-        premiumSkillCheck();     // nothing left to add here
+        builderSideComplete();     // nothing left to add here
     }
 }
 
