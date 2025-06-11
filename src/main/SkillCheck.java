@@ -13,6 +13,7 @@ public class SkillCheck {
 
     // Skill Check Variables
     boolean active = false;
+    boolean builderSideComplete = false;
     double angle = 0;
     double speed = 0.05;
     int centerX, centerY, radius, diameter;
@@ -46,57 +47,78 @@ public class SkillCheck {
         lettuceSkillCheck();
     }
 
+    public void finisherSkillCheck() {
+        active = false;
+
+        if (!gp.player.hasBowl) {
+            gp.ui.setMessage("You need a bowl to build a salad!");
+            return;
+        }
+        if (gp.orderGenerator.order.isEmpty()) {
+            gp.ui.setMessage("You have no order to build!");
+            return;
+        }
+        if (!builderSideComplete) {
+            gp.ui.setMessage("You must build salad before adding finisher toppings.");
+            return;
+        }
+        premiumSkillCheck();
+    }
+
 
 
 
     
     public void lettuceSkillCheck() {
-        
         skillCheck = 0;
-        ingredients.clear();
-        ingredients.addAll(gp.orderGenerator.lettuce);
-        active = true;
-        
-        
+        if (buildWheel(gp.orderGenerator.lettuce, gp.orderGenerator.lettuceOrder)) {
+            active = true;
+        } else {
+            classicSkillCheck();     // already complete → jump to next stage
+        }
     }
 
-    public void classicSkillCheck() {
-        
-        skillCheck = 1;
-        ingredients.clear();
-        for(int i = 0; i < Math.min(4, gp.orderGenerator.classics.size()); i++) {
-            ingredients.add(gp.orderGenerator.classics.get(i));
 
-        }
+    public void classicSkillCheck()  {
+    skillCheck = 1;
+    if (buildWheel(gp.orderGenerator.classics,
+                   gp.orderGenerator.classicsOrder)) {
         active = true;
+    } else {
+        premiumSkillCheck();     // nothing left to add here
     }
-    
-    public void premiumSkillCheck() {
-        skillCheck = 2;
-        ingredients.clear();
-        // Get first 4 premiums from the order
-        for(int i = 0; i < Math.min(4, gp.orderGenerator.premiumsOrder.size()); i++) {
-            ingredients.add(gp.orderGenerator.premiumsOrder.get(i));
-        }
-        active = true;
-    }
+}
 
-    public void protineSkillCheck() {
-        skillCheck = 3;
-        ingredients.clear();
-        // Get first 4 proteins from the order
-        for(int i = 0; i < Math.min(4, gp.orderGenerator.protine.size()); i++) {
-            ingredients.add(gp.orderGenerator.protine.get(i));
-        }
+public void premiumSkillCheck()  {
+    skillCheck = 2;
+    if (buildWheel(gp.orderGenerator.premiums,
+                   gp.orderGenerator.premiumsOrder)) {
         active = true;
+    } else {
+        protineSkillCheck();
     }
-    
-    public void dressingSkillCheck() {
-        skillCheck = 4;
-        ingredients.clear();
-        ingredients.addAll(gp.orderGenerator.dressingsOrder);
+}
+
+public void protineSkillCheck()  {
+    skillCheck = 3;
+    if (buildWheel(gp.orderGenerator.protine,
+                   gp.orderGenerator.protineOrder)) {
         active = true;
+    } else {
+        dressingSkillCheck();
     }
+}
+
+public void dressingSkillCheck() {
+    skillCheck = 4;
+    if (buildWheel(gp.orderGenerator.dressings,
+                   gp.orderGenerator.dressingsOrder)) {
+        active = true;
+    } else {
+        //finishSalad();           // every category done
+    }
+}
+
 
 
 
@@ -184,89 +206,163 @@ public class SkillCheck {
 
 
 
+
+
+
+
+
+
+
     public void handleKeyPress() {
-        if (!active) return;
-    
-        
-        
+    if (!active) return;
 
-        double normalizedAngle = (angle + 2 * Math.PI) % (2 * Math.PI);
-        int totalSections = 8;
-        double sliceAngle = 2 * Math.PI / totalSections;
-        int hitSection = (int)((normalizedAngle +  sliceAngle/2) / sliceAngle) % totalSections; 
-    
-        if (hitSection % 2 == 0) {
-            int colorIndex = (hitSection - 1) / 2;
-            if(colorIndex < ingredients.size()) {
-                String selectedIngredient = ingredients.get(colorIndex);
-                
-                boolean isCorrect = false;
-                switch(skillCheck) {
-                    case 0: // Lettuce Skill Check
-                        isCorrect = gp.orderGenerator.lettuceOrder.contains(selectedIngredient);
-                        break;
-                    case 1: // Classic Skill Check
-                        isCorrect = gp.orderGenerator.classicsOrder.contains(selectedIngredient);    
-                        break;
-                    case 2: // Premium Skill Check
-                        isCorrect = gp.orderGenerator.premiumsOrder.contains(selectedIngredient);
-                        break;
-                    case 3: // Protine Skill Check
-                        isCorrect = gp.orderGenerator.protineOrder.contains(selectedIngredient);
-                        break;
-                    case 4: // Dressing Skill Check
-                        isCorrect = gp.orderGenerator.dressingsOrder.contains(selectedIngredient);
-                        break;
-                }
+    // 0 ≤ normalizedAngle < 2π
+    double twoPi = 2 * Math.PI;
+    double normalizedAngle = (angle % twoPi + twoPi) % twoPi;
 
-                if (isCorrect) {
-                    gp.player.playerBowl.add(selectedIngredient);
-                    gp.ui.setMessage("Correct! Added " + selectedIngredient);
-                    
-                    // Check completion based on current skill check
-                    boolean completed = false;
-                    switch(skillCheck) {
-                        case 0: // Lettuce
-                            completed = gp.player.playerBowl.containsAll(gp.orderGenerator.lettuceOrder);
-                            if(completed) classicSkillCheck();
-                            break;
-                        case 1: // Classics
-                            completed = gp.player.playerBowl.containsAll(gp.orderGenerator.classicsOrder);
-                            if(completed) premiumSkillCheck();
-                            break;
-                        case 2: // Premium
-                            completed = gp.player.playerBowl.containsAll(gp.orderGenerator.premiumsOrder);
-                            if(completed) protineSkillCheck();
-                            break;
-                        case 3: // Protine
-                            completed = gp.player.playerBowl.containsAll(gp.orderGenerator.protine);
-                            if(completed) dressingSkillCheck();
-                            break;
-                        case 4: // Dressing
-                            completed = gp.player.playerBowl.containsAll(gp.orderGenerator.dressingsOrder);
-                            if(completed) {
-                                gp.ui.setMessage("Salad complete!");
-                                gp.player.points += 100;
-                            }
-                            break;
+    int totalSections = 8;
+    double sliceAngle = twoPi / totalSections;
+
+    // which 45° slice is the cursor in?
+    int hitSection = (int) (normalizedAngle / sliceAngle);   // 0‥7
+
+    /* ───────────────────────────────────
+       COLOURED SLICES ARE ODD (1,3,5,7)
+       ─────────────────────────────────── */
+    if (hitSection % 2 == 1) {                     // *** coloured slice ***
+        int colorIndex = hitSection / 2;           // 0‥3
+
+        if (colorIndex < ingredients.size()) {
+            String selectedIngredient = ingredients.get(colorIndex);
+
+            boolean isCorrect = switch (skillCheck) {
+                case 0 -> gp.orderGenerator.lettuceOrder.contains(selectedIngredient);
+                case 1 -> gp.orderGenerator.classicsOrder.contains(selectedIngredient);
+                case 2 -> gp.orderGenerator.premiumsOrder.contains(selectedIngredient);
+                case 3 -> gp.orderGenerator.protineOrder.contains(selectedIngredient);
+                case 4 -> gp.orderGenerator.dressingsOrder.contains(selectedIngredient);
+                default -> false;
+            };
+
+            if (isCorrect) {
+                gp.player.playerBowl.add(selectedIngredient);
+                gp.ui.setMessage("Correct! Added " + selectedIngredient);
+                gp.player.points+=10;
+
+                if (categoryFinished(skillCheck)) {      // all classics done?
+                    switch (skillCheck) {                // move to the next stage
+                        case 0 -> classicSkillCheck();
+                        case 1 -> builderSideComplete();
+                        case 2 -> protineSkillCheck();
+                        case 3 -> dressingSkillCheck();
+                        case 4 -> finishSalad();         // salad complete
                     }
                 } else {
-                    // Incorrect
-                    failSkillCheck();
+                    /* 👉 ***NOT finished yet***  — build a fresh wheel that
+                        still guarantees at least one of the remaining classics.  */
+                    switch (skillCheck) {
+                        case 0 -> buildWheel(gp.orderGenerator.lettuce,
+                                            gp.orderGenerator.lettuceOrder);
+                        case 1 -> buildWheel(gp.orderGenerator.classics,
+                                            gp.orderGenerator.classicsOrder);
+                        case 2 -> buildWheel(gp.orderGenerator.premiums,
+                                            gp.orderGenerator.premiumsOrder);
+                        case 3 -> buildWheel(gp.orderGenerator.protine,
+                                            gp.orderGenerator.protineOrder);
+                        case 4 -> buildWheel(gp.orderGenerator.dressings,
+                                            gp.orderGenerator.dressingsOrder);
+                    }
                 }
+            } else {
+                gp.player.points-=5;
+                failSkillCheck();   // wrong ingredient
             }
-        } else {
-            //MISSED
-            failSkillCheck();
+
         }
-    
-        
+    } else {
+        /* hit a black slice */
+        gp.player.points-=10;
+        failSkillCheck();
     }
+}
+
+
+
+
+
+
     
+                    
+                    
     private void failSkillCheck() {
         active = false;
         gp.player.hasBowl = false;
         gp.player.playerBowl.clear();
         gp.ui.setMessage("Failed! Bowl dropped.");
     }
+
+
+
+
+
+
+    private boolean buildWheel(List<String> categoryPool, List<String> orderList) {
+
+        // 1.  Which items from this category are STILL missing?
+        List<String> missing = new ArrayList<>(orderList);
+        missing.removeAll(gp.player.playerBowl);
+
+        if (missing.isEmpty()) {        // category already finished
+            return false;
+        }
+
+        ingredients.clear();
+
+        /* 2.  Guarantee at least ONE correct item.
+            (Pick a random one so the game doesn’t become predictable.)    */
+        String mustAppear = missing.get(gp.random.nextInt(missing.size()));
+        ingredients.add(mustAppear);
+
+        /* 3.  Fill the remaining slots with decoys,
+            avoiding duplicates and shuffling for variety.                 */
+        List<String> decoys = new ArrayList<>(categoryPool);
+        decoys.removeAll(ingredients);          // no duplicates
+        java.util.Collections.shuffle(decoys);
+
+        while (ingredients.size() < 4 && !decoys.isEmpty()) {
+            ingredients.add(decoys.remove(0));
+        }
+
+        java.util.Collections.shuffle(ingredients);   // random order on the wheel
+        return true;
+    }
+
+
+
+
+    private boolean categoryFinished(int category) {
+        return switch (category) {
+            case 0 -> gp.player.playerBowl.containsAll(gp.orderGenerator.lettuceOrder);
+            case 1 -> gp.player.playerBowl.containsAll(gp.orderGenerator.classicsOrder);
+            case 2 -> gp.player.playerBowl.containsAll(gp.orderGenerator.premiumsOrder);
+            case 3 -> gp.player.playerBowl.containsAll(gp.orderGenerator.protineOrder);
+            case 4 -> gp.player.playerBowl.containsAll(gp.orderGenerator.dressingsOrder);
+            default -> true;
+        };
+    }
+
+    private void finishSalad() {
+        gp.ui.setMessage("SALAD COMPLETE!");
+        gp.player.points+=100;
+        active = false;
+
+    }
+
+    private void builderSideComplete() {
+        gp.ui.setMessage("Builder side completed!");
+        gp.player.points+=50;
+        active = false;
+        builderSideComplete = true;
+    }
+
 }

@@ -2,11 +2,8 @@ package main;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class OrderGenerator {
-    
-    Random random = new Random();
     GamePanel gp;
 
     List<String> lettuce = new ArrayList<>();
@@ -80,6 +77,7 @@ public class OrderGenerator {
         premiums.add("Feta Cheese");
         premiums.add("Bacon Bits");
         premiums.add("Egg Slices");
+        premiums.add("PepperJack Cheese");
     }
     public void addProtines() {
         protine.add("Chicken");
@@ -105,9 +103,9 @@ public class OrderGenerator {
             
             switch (i) {
                 case 0: // Lettuce
-                    wantsItem = random.nextInt(3) + 1; // 1-3
+                    wantsItem = gp.random.nextInt(3) + 1; // 1-3
                     for(int j = 0; j < wantsItem; j++) {
-                        itemNum = random.nextInt(lettuce.size());
+                        itemNum = gp.random.nextInt(lettuce.size());
                         order.add(lettuce.get(itemNum));
                         lettuceOrder.add(lettuce.get(itemNum));
                         lettuce.remove(itemNum);
@@ -115,33 +113,40 @@ public class OrderGenerator {
                     
                     break;
                 case 1: // Classic
-                    wantsItem = random.nextInt(5); // 0-4
+                    wantsItem = gp.random.nextInt(5); // 0-4
                     if (wantsItem == 0) {
                         break;
                     }
                     for(int j = 0; j < wantsItem; j++) {
-                        itemNum = random.nextInt(classics.size());
+                        itemNum = gp.random.nextInt(classics.size());
                         order.add(classics.get(itemNum));
                         classicsOrder.add(classics.get(itemNum));
                         classics.remove(itemNum);
                     }
                     break;
                 case 2: // Premium
-                    wantsItem = random.nextInt(3); // 0-2
+                    wantsItem = gp.random.nextInt(3); // 0-2
                     if (wantsItem == 0) {
                         break;
                     }
                     for(int j = 0; j < wantsItem; j++) {
-                        itemNum = random.nextInt(premiums.size());
+                        itemNum = gp.random.nextInt(premiums.size());
                         order.add(premiums.get(itemNum));
+                        premiumsOrder.add(premiums.get(itemNum));
                         premiums.remove(itemNum);
                     }
                     break;
                 case 3: // Protein
-                    order.add(protine.get(random.nextInt(protine.size()))); // 1
+                    itemNum = gp.random.nextInt(protine.size()); //1
+                    order.add(protine.get(itemNum));
+                    protineOrder.add(protine.get(itemNum));
+                    protine.remove(itemNum);
                     break;
                 case 4: // Dressing
-                    order.add(dressings.get(random.nextInt(dressings.size()))); // 1
+                    itemNum = gp.random.nextInt(dressings.size()); //1
+                    order.add(dressings.get(itemNum));
+                    dressingsOrder.add(dressings.get(itemNum));
+                    dressings.remove(itemNum);
                     break;
             }
         }

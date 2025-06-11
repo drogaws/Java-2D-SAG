@@ -49,7 +49,7 @@ public class Player extends Entity {
     public void setDefaultValues() {
         worldX = gp.tileSize * 14; // Starting POS
         worldY = gp.tileSize * 20; // ^  ^   ^   ^
-        speed = 5;
+        speed = 3;
         direction = "down";
     }
     public void getPlayerImage() {
@@ -135,6 +135,18 @@ public class Player extends Entity {
             }
         }
 
+
+        // Extra Speed Logic
+        if (keyH.sideWalking) {
+            speed = 2;
+        }
+        if (!keyH.sideWalking) {
+            speed = 3;
+        }
+
+        
+        
+
         // E
         if (canPressE && keyH.ePressed) {
             
@@ -191,6 +203,9 @@ public class Player extends Entity {
                     
                     
                     break;
+
+                case "LineFinisher":
+                    gp.skillCheck.finisherSkillCheck();
                 
             }
         }

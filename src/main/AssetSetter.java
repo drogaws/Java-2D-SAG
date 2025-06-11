@@ -3,6 +3,7 @@ package main;
 import object.OBJ_BowlTable;
 import object.OBJ_Door;
 import object.OBJ_LineBuilder;
+import object.OBJ_LineFinisher;
 import object.OBJ_SideStorage;
 
 public class AssetSetter {
@@ -114,7 +115,7 @@ public class AssetSetter {
         gp.obj[23].worldX = 19 * gp.tileSize -24;
         gp.obj[23].worldY = 20 * gp.tileSize -24;
 
-        gp.obj[24] = new OBJ_LineBuilder();
+        gp.obj[24] = new OBJ_LineFinisher();
         gp.obj[24].worldX = 19 * gp.tileSize -24;
         gp.obj[24].worldY = 12 * gp.tileSize -24;
     }

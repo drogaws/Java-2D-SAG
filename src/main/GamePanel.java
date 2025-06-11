@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.awt.Color;
 
 import javax.swing.JPanel;
@@ -47,6 +48,7 @@ public class GamePanel extends JPanel implements Runnable{
     public SuperObject obj[] = new SuperObject[100];
     public SkillCheck skillCheck = new SkillCheck(this);
     public OrderGenerator orderGenerator = new OrderGenerator(this);
+    public Random random = new Random();
 
     
     // Constructor
