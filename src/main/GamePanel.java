@@ -3,8 +3,6 @@ package main;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.awt.Color;
 
@@ -62,7 +60,6 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     // Order
-    public List<String> order = new ArrayList<>();
 
     // SETUP GAME
     public void setupGame() {
@@ -145,6 +142,7 @@ public class GamePanel extends JPanel implements Runnable{
         // UI
         ui.draw(g2);
         ui.drawMessages(g2);
+        ui.displayOrder(g2);
         
         // Skill Check
         skillCheck.draw(g2);

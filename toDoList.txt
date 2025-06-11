@@ -1,6 +1,6 @@
-1. Add window to allow user to turn in salad.
+1. Make orders display on screen
 
-2. Make orders display on screenHeight
+2. Add window to allow user to turn in salad.
 
 3. Generate orders every 60 seconds
 

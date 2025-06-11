@@ -150,7 +150,9 @@ public class OrderGenerator {
                     break;
             }
         }
+        // DEBUG
         System.out.println(order);
+
         resetIngreidents();
         return;
     }
