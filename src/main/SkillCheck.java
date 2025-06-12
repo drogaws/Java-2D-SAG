@@ -24,6 +24,11 @@ public class SkillCheck {
     List<String> ingredients = new ArrayList<>();
 
 
+
+    int mistakes = 0;
+    boolean saladFinished;
+
+
     /*
      * Constructor
      */
@@ -125,7 +130,7 @@ public class SkillCheck {
         8f is just an example—double it if you still don’t like the thickness.
         BasicStroke.CAP_ROUND gives a rounded tip instead of a blunt square. */
         g2.setStroke(new java.awt.BasicStroke(
-                8f,                               // width in screen pixels
+                10,                               // width in screen pixels
                 java.awt.BasicStroke.CAP_ROUND,   // rounded ends look cleaner
                 java.awt.BasicStroke.JOIN_MITER   // join style – irrelevant for a single line
         ));
@@ -191,12 +196,14 @@ public class SkillCheck {
         gp.player.hasBowl = false;
         gp.player.playerBowl.clear();
         gp.ui.setMessage("WHOOPS you slipped and dropped your BOWL!");
+        builderSideComplete = false;
     }
     private void wrongSkillCheck() {
         active = false;
         gp.player.hasBowl = false;
         gp.player.playerBowl.clear();
         gp.ui.setMessage("Crap, Wrong Ingredient");
+        builderSideComplete = false;
     }
     /*
      * Win Logic
@@ -205,6 +212,7 @@ public class SkillCheck {
         gp.ui.setMessage("SALAD COMPLETE!");
         gp.player.points+=100;
         active = false;
+        saladFinished = true;
 
     }
 
@@ -224,6 +232,10 @@ public class SkillCheck {
 
 
         // Tripple Check if Valid
+        if (gp.orderGenerator.order.isEmpty()) {
+            gp.ui.setMessage("Take an order on the POS first!");
+            return;
+        }
         if(builderSideComplete) {
             gp.ui.setMessage("Builder side completed move to finisher!");
             return;
@@ -233,10 +245,7 @@ public class SkillCheck {
             gp.ui.setMessage("You need a bowl to build a salad!");
             return;
         }
-        if (gp.orderGenerator.order.isEmpty()) {
-            gp.ui.setMessage("You have no order to build!");
-            return;
-        }
+        
 
         lettuceSkillCheck();
     }
@@ -244,14 +253,15 @@ public class SkillCheck {
         active = false;
 
         // Tripple Check if Valid
+        if (gp.orderGenerator.order.isEmpty()) {
+            gp.ui.setMessage("Take an order on the POS first!");
+            return;
+        }
         if (!gp.player.hasBowl) {
             gp.ui.setMessage("You need a bowl to build a salad!");
             return;
         }
-        if (gp.orderGenerator.order.isEmpty()) {
-            gp.ui.setMessage("You have no order to build!");
-            return;
-        }
+        
         if (!builderSideComplete) {
             gp.ui.setMessage("You must build salad before adding finisher toppings.");
             return;
@@ -396,7 +406,51 @@ public class SkillCheck {
     }
 
 
+    public void turnInSalad() {
+        
+        if(gp.orderGenerator.order.isEmpty()) {
+            gp.ui.setMessage("Ahhh, what a slow day :)");
+            return;
+        }
+        if(!gp.player.hasBowl) {
+            gp.ui.setMessage("Guest: WHerES mY SALad?!");
+            mistakes++;
+            return;
+        }
+        if(!saladFinished) {
+            gp.ui.setMessage("Guest: Im missing half my ingreidents...");
+            mistakes++;
+            return;
+        }
 
+        switch(mistakes) {
+            case 0 -> {
+                gp.ui.setMessage("Guest: Thank you!");
+                gp.player.points += 100;
+            } 
+            case 1 -> {
+                gp.ui.setMessage("Guest: ... thanks");
+                gp.player.points += 50;
+            }
+            case 2 -> {
+                gp.ui.setMessage("Guest: FINALLY!");
+            }
+            default -> {
+                gp.ui.setMessage("Guest: Forget it...");
+                gp.player.points -= 50;
+            }
+        }
+        
+        gp.orderGenerator.carsInLine--;
+        gp.player.hasBowl = false;
+        builderSideComplete = false;
+        saladFinished = false;
+        mistakes = 0;
+        ingredients.clear();
+        gp.orderGenerator.order.clear();
+
+        
+    }
 
     
 

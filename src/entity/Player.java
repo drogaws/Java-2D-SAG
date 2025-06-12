@@ -20,7 +20,8 @@ public class Player extends Entity {
     public boolean hasBowl = false;
     boolean canPressE = true;
     boolean canPressSpace = true;
-
+    
+    public boolean takesOrder = false;
     public int points = 0;
     public List<String> playerBowl = new ArrayList<>();
 
@@ -73,6 +74,7 @@ public class Player extends Entity {
     public void update() {
         int objIndex;
         collisionOn = false;
+        takesOrder = false;
         gp.cChecker.checkTile(this);
         objIndex = gp.cChecker.checkObject(this, true);
         //pickUpObject(objIndex);
@@ -206,6 +208,20 @@ public class Player extends Entity {
 
                 case "LineFinisher":
                     gp.skillCheck.finisherSkillCheck();
+
+                    break;
+                
+                case "Window":
+                    gp.skillCheck.turnInSalad();
+                    break;
+
+                case "POS":
+                    if(gp.orderGenerator.carsInLine > 0) {
+                        gp.orderGenerator.generateOrder();
+                    } else {
+                        gp.ui.setMessage("There are no cars in line.");
+                    }
+                    break;
                 
             }
         }

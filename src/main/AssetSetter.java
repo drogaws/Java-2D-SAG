@@ -2,9 +2,13 @@ package main;
 
 import object.OBJ_BowlTable;
 import object.OBJ_Door;
+import object.OBJ_FrozenMachine;
 import object.OBJ_LineBuilder;
 import object.OBJ_LineFinisher;
+import object.OBJ_POS;
 import object.OBJ_SideStorage;
+import object.OBJ_Table;
+import object.OBJ_Window;
 
 public class AssetSetter {
     
@@ -26,6 +30,53 @@ public class AssetSetter {
         gp.obj[1] = new OBJ_Door();
         gp.obj[1].worldX = 2 * gp.tileSize;
         gp.obj[1].worldY = 27 * gp.tileSize;
+
+        
+
+        gp.obj[23] = new OBJ_LineBuilder();
+        gp.obj[23].worldX = 19 * gp.tileSize -24;
+        gp.obj[23].worldY = 20 * gp.tileSize -24;
+
+        gp.obj[24] = new OBJ_LineFinisher();
+        gp.obj[24].worldX = 19 * gp.tileSize -24;
+        gp.obj[24].worldY = 12 * gp.tileSize -24;
+
+
+        gp.obj[25] = new OBJ_Window();
+        gp.obj[25].worldX = 26 * gp.tileSize;
+        gp.obj[25].worldY = 7 * gp.tileSize;
+
+        gp.obj[26] = new OBJ_Window(false);
+        gp.obj[26].worldX = 14 * gp.tileSize;
+        gp.obj[26].worldY = 4 * gp.tileSize;
+
+
+        gp.obj[27] = new OBJ_Table();
+        gp.obj[27].worldX = 16 * gp.tileSize;
+        gp.obj[27].worldY = 5 * gp.tileSize;
+
+        gp.obj[28] = new OBJ_FrozenMachine();
+        gp.obj[28].worldX = 16 * gp.tileSize;
+        gp.obj[28].worldY = 5 * gp.tileSize;
+
+        gp.obj[29] = new OBJ_POS();
+        gp.obj[29].worldX = 19 * gp.tileSize;
+        gp.obj[29].worldY = 5 * gp.tileSize + 1;
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
+         * Walkin Storages
+         */
 
         gp.obj[2] = new OBJ_SideStorage();
         gp.obj[2].worldX = 9 * gp.tileSize;
@@ -110,13 +161,5 @@ public class AssetSetter {
         gp.obj[22] = new OBJ_SideStorage(false);
         gp.obj[22].worldX = 11 * gp.tileSize;
         gp.obj[22].worldY = 11 * gp.tileSize;
-
-        gp.obj[23] = new OBJ_LineBuilder();
-        gp.obj[23].worldX = 19 * gp.tileSize -24;
-        gp.obj[23].worldY = 20 * gp.tileSize -24;
-
-        gp.obj[24] = new OBJ_LineFinisher();
-        gp.obj[24].worldX = 19 * gp.tileSize -24;
-        gp.obj[24].worldY = 12 * gp.tileSize -24;
     }
 }

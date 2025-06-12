@@ -5,6 +5,7 @@ import java.util.List;
 
 public class OrderGenerator {
     GamePanel gp;
+    public int carsInLine = 0;
 
     List<String> lettuce = new ArrayList<>();
     List<String> classics = new ArrayList<>();
@@ -94,6 +95,7 @@ public class OrderGenerator {
 
 
     public void generateOrder() {
+        
         int itemNum;
         
         resetOrder();

@@ -105,8 +105,9 @@ public class GamePanel extends JPanel implements Runnable{
                 drawCount = 0;
                 timer = 0;
                 orderInterval++;
-                if(orderInterval >= 5 && orderGenerator.order.isEmpty()) {
-                    orderGenerator.generateOrder();
+                if(orderInterval >= 30) {
+                    orderGenerator.carsInLine++;
+                    ui.setMessage("*Ding Ding*: " + orderGenerator.carsInLine + " cars in line.");
                     orderInterval = 0;
                 }
             }
