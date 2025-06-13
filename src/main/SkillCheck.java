@@ -165,23 +165,22 @@ public class SkillCheck {
         int colorIndex = hitSection / 2;           // 0‥3
 
         
-        if (colorIndex < ingredients.size()) {
-            String selectedIngredient = ingredients.get(colorIndex);
+        
+        String selectedIngredient = ingredients.get(colorIndex);
 
-            boolean isCorrect = checkTypeForIngredient(selectedIngredient);
+        boolean isCorrect = checkTypeForIngredient(selectedIngredient);
+        
+        if (isCorrect) {
+            gp.player.playerBowl.add(selectedIngredient);
+            gp.ui.setMessage("Correct! Added " + selectedIngredient);
+            gp.player.points+=10;
+
+            determineNextWheel();
             
-            if (isCorrect) {
-                gp.player.playerBowl.add(selectedIngredient);
-                gp.ui.setMessage("Correct! Added " + selectedIngredient);
-                gp.player.points+=10;
-
-                determineNextWheel();
-                
-            } else {
-                wrongSkillCheck();
-            }
-
+        } else {
+            wrongSkillCheck();
         }
+
     } else {
         missedSkillCheck();
     }
@@ -231,7 +230,11 @@ public class SkillCheck {
         active = false;
 
 
-        // Tripple Check if Valid
+        // Quad Check if Valid
+        if (saladFinished) {
+            gp.ui.setMessage("Salad already finished, turn it in!");
+            return;
+        }
         if (gp.orderGenerator.order.isEmpty()) {
             gp.ui.setMessage("Take an order on the POS first!");
             return;
@@ -252,7 +255,11 @@ public class SkillCheck {
     public void finisherSkillCheck() {
         active = false;
 
-        // Tripple Check if Valid
+        // Quad Check if Valid
+        if (saladFinished) {
+            gp.ui.setMessage("Salad already finished, turn it in!");
+            return;
+        }
         if (gp.orderGenerator.order.isEmpty()) {
             gp.ui.setMessage("Take an order on the POS first!");
             return;
@@ -407,9 +414,13 @@ public class SkillCheck {
 
 
     public void turnInSalad() {
-        
         if(gp.orderGenerator.order.isEmpty()) {
             gp.ui.setMessage("Ahhh, what a slow day :)");
+            return;
+        }
+        if(gp.orderGenerator.carsAtWindow < 1) {
+            gp.ui.setMessage("Guest are waiting at the speaker box!");
+            mistakes++;
             return;
         }
         if(!gp.player.hasBowl) {
@@ -441,8 +452,9 @@ public class SkillCheck {
             }
         }
         
-        gp.orderGenerator.carsInLine--;
+        gp.orderGenerator.carsAtWindow--;
         gp.player.hasBowl = false;
+        gp.player.playerBowl.clear();
         builderSideComplete = false;
         saladFinished = false;
         mistakes = 0;

@@ -144,6 +144,7 @@ public class GamePanel extends JPanel implements Runnable{
         ui.draw(g2);
         ui.drawMessages(g2);
         ui.displayOrder(g2);
+        ui.carCount(g2);
         
         // Skill Check
         skillCheck.draw(g2);

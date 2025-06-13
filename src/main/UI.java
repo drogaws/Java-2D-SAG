@@ -52,6 +52,11 @@ public class UI {
 
 
 
+    public void carCount(Graphics2D g2) {
+        g2.setFont(arial_40);
+        g2.setColor(Color.WHITE);
+        g2.drawString("Cars in Line: " + gp.orderGenerator.carsInLine, 25, 100);
+    }
 
 
 

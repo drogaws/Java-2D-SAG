@@ -6,6 +6,7 @@ import java.util.List;
 public class OrderGenerator {
     GamePanel gp;
     public int carsInLine = 0;
+    public int carsAtWindow = 0;
 
     List<String> lettuce = new ArrayList<>();
     List<String> classics = new ArrayList<>();
@@ -95,6 +96,17 @@ public class OrderGenerator {
 
 
     public void generateOrder() {
+        if(carsInLine < 1) {
+            gp.ui.setMessage("There are no cars in line.");
+            return;
+        }
+        if(carsAtWindow >= 1) {
+            gp.ui.setMessage("Finish the food for the car at the window...");
+            return;
+        }
+
+        carsInLine--;
+        carsAtWindow++;
         
         int itemNum;
         

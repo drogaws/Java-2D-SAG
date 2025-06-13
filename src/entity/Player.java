@@ -216,11 +216,9 @@ public class Player extends Entity {
                     break;
 
                 case "POS":
-                    if(gp.orderGenerator.carsInLine > 0) {
-                        gp.orderGenerator.generateOrder();
-                    } else {
-                        gp.ui.setMessage("There are no cars in line.");
-                    }
+                    gp.orderGenerator.generateOrder();    
+
+                    
                     break;
                 
             }
