@@ -2,6 +2,7 @@ package main;
 
 import object.OBJ_BowlTable;
 import object.OBJ_Door;
+import object.OBJ_Drinks;
 import object.OBJ_FrozenMachine;
 import object.OBJ_LineBuilder;
 import object.OBJ_LineFinisher;
@@ -61,7 +62,13 @@ public class AssetSetter {
 
         gp.obj[29] = new OBJ_POS();
         gp.obj[29].worldX = 19 * gp.tileSize;
-        gp.obj[29].worldY = 5 * gp.tileSize + 1;
+        gp.obj[29].worldY = 5 * gp.tileSize;
+
+        gp.obj[30] = new OBJ_Drinks();
+        gp.obj[30].worldX = 22 * gp.tileSize;
+        gp.obj[30].worldY = 5 * gp.tileSize;
+
+
 
 
 
